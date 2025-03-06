@@ -1,7 +1,7 @@
-import Hero from "@/components/root-sections/hero";
-import Projects from "@/components/root-sections/projects";
-import Experience from "@/components/root-sections/experience";
-import GithubStats from "@/components/root-sections/github-stats";
+import Hero from "@/components/hero";
+import Projects from "@/components/projects";
+import Experience from "@/components/experience";
+import GithubStats from "@/components/github-stats";
 
 export default function Home() {
   return (

@@ -15,8 +15,8 @@ export default function Hero() {
         flickerChance={0.1618}
       />
       <div className={"container mx-auto font-mono block relative top-[30.9vh]"}>
-          <h1 className={"text-4xl font-medium"}>g30r93g</h1>
-          <h2 className={"text-2xl/9 mt-4.5"}>Creating solutions<br />for interesting problems.</h2>
+        <h1 className={"text-4xl font-medium"}>g30r93g</h1>
+        <h2 className={"text-2xl/9 mt-4.5"}>Creating solutions<br />for interesting problems.</h2>
       </div>
       <div className={"relative right-0 top-[40vh] sm:top-[61.8vh] bg-accent/50 dark:bg-accent/35 ml-auto mr-0 rounded-l-2xl border border-r-0 border-accent p-4 w-[90vw] md:w-fit grid xs:grid-cols-1 sm:grid-cols-2 items-stretch md:flex flex-row gap-2 z-[100]"}>
         <Link href={"#projects"}>
