@@ -1,4 +1,8 @@
-import {getAllExperience} from "@/lib/experience";
+import {
+  getAllExperience,
+  getSingleExperience,
+} from "@/lib/experience"
+import ExperienceContent from "@/components/experience/content"
 
 export default async function ExperienceItemPage({
  params,
@@ -6,9 +10,13 @@ export default async function ExperienceItemPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const { default: Post } = await import(`@/content/experience/${slug}.mdx`)
+  const experience = getSingleExperience(slug)
 
-  return <Post />
+  if (!experience) {
+    return <div>Experience not found</div>
+  }
+
+  return <ExperienceContent experience={experience} />
 }
 
 export function generateStaticParams() {

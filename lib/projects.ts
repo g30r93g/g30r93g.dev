@@ -1,9 +1,9 @@
-import path from "path";
-import Project from "@/types/project";
-import {z} from "zod";
-import {getMdx} from "@/lib/get-mdx";
+import path from "path"
+import Project from "@/types/project"
+import {z} from "zod"
+import {getMdx, getMdxList} from "@/lib/get-mdx"
 
-const projectsDirectory = path.join(process.cwd(), "/content/projects");
+const projectsDirectory = path.join(process.cwd(), "/content/projects")
 
 const projectSchema = z.object({
   title: z.string(),
@@ -12,7 +12,7 @@ const projectSchema = z.object({
   archived: z.boolean().optional().default(false),
   icon: z.string().url().optional(),
   image: z.string().url().optional(),
-});
+})
 
 const projectMapper = (data: z.infer<typeof projectSchema>, content: string, slug: string): Project => ({
   title: data.title,
@@ -24,8 +24,12 @@ const projectMapper = (data: z.infer<typeof projectSchema>, content: string, slu
   url: `/projects/${slug}`,
   image: data.image,
   content,
-});
+})
 
 export function getAllProjects(): Project[] {
-  return getMdx<Project, typeof projectSchema>(projectsDirectory, projectSchema, projectMapper);
+  return getMdxList<Project, typeof projectSchema>(projectsDirectory, projectSchema, projectMapper)
+}
+
+export function getSingleProject(slug: string): Project | undefined {
+  return getMdx<Project, typeof projectSchema>(projectsDirectory, projectSchema, projectMapper, slug)
 }

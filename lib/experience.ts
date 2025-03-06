@@ -1,7 +1,7 @@
 import path from "path";
 import Experience from "@/types/experience";
 import {z} from "zod";
-import {getMdx} from "@/lib/get-mdx";
+import {getMdx, getMdxList} from "@/lib/get-mdx";
 
 const experiencesDirectory = path.join(process.cwd(), "/content/experience");
 
@@ -17,7 +17,7 @@ const experienceSchema = z.object({
   companyUrl: z.string().url(),
 });
 
-const projectMapper = (data: z.infer<typeof experienceSchema>, content: string, slug: string): Experience => ({
+const experienceMapper = (data: z.infer<typeof experienceSchema>, content: string, slug: string): Experience => ({
   companyName: data.companyName,
   role: data.role,
   description: data.description,
@@ -31,5 +31,9 @@ const projectMapper = (data: z.infer<typeof experienceSchema>, content: string, 
 });
 
 export function getAllExperience(): Experience[] {
-  return getMdx<Experience, typeof experienceSchema>(experiencesDirectory, experienceSchema, projectMapper);
+  return getMdxList<Experience, typeof experienceSchema>(experiencesDirectory, experienceSchema, experienceMapper);
+}
+
+export function getSingleExperience(slug: string): Experience | undefined {
+  return getMdx<Experience, typeof experienceSchema>(experiencesDirectory, experienceSchema, experienceMapper, slug);
 }

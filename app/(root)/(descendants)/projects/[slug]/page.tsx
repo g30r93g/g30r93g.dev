@@ -1,4 +1,8 @@
-import {getAllProjects} from "@/lib/projects";
+import {
+    getAllProjects,
+    getSingleProject
+} from "@/lib/projects"
+import ProjectContent from "@/components/projects/content"
 
 export default async function ProjectItemPage({
     params,
@@ -6,9 +10,13 @@ export default async function ProjectItemPage({
     params: Promise<{ slug: string }>
 }) {
     const { slug } = await params
-    const { default: Post } = await import(`@/content/projects/${slug}.mdx`)
+    const project = getSingleProject(slug)
 
-    return <Post />
+    if (!project) {
+        return <div>Project not found</div>
+    }
+
+    return <ProjectContent project={project} />
 }
 
 export function generateStaticParams() {
