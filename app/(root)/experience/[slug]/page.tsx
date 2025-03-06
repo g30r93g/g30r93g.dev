@@ -1,3 +1,5 @@
+import {getAllExperience} from "@/lib/experience";
+
 export default async function ExperienceItemPage({
  params,
 }: {
@@ -10,15 +12,9 @@ export default async function ExperienceItemPage({
 }
 
 export function generateStaticParams() {
-  return [
-    { slug: 'outlier-ai' },
-    { slug: 'kane-fm' },
-    { slug: 'surrey-students-union' },
-    { slug: 'university-of-surrey' },
-    { slug: 'team-surrey-karting-club' },
-    { slug: 'surtes' },
-    { slug: 'lumen-research' },
-  ]
+  const experience = getAllExperience()
+
+  return experience.map(({ slug }) => { return { slug } })
 }
 
 export const dynamicParams = false

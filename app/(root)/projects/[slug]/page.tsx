@@ -1,3 +1,5 @@
+import {getAllProjects} from "@/lib/projects";
+
 export default async function ProjectItemPage({
     params,
 }: {
@@ -10,13 +12,9 @@ export default async function ProjectItemPage({
 }
 
 export function generateStaticParams() {
-    return [
-        { slug: 'tfl-planner' },
-        { slug: 'woodhouse-hub' },
-        { slug: 'team-surrey-karting-club' },
-        { slug: 'tableside' },
-        { slug: 'opensu' },
-    ]
+    const projects = getAllProjects()
+
+    return projects.map(({ slug }) => { return { slug } })
 }
 
 export const dynamicParams = false
