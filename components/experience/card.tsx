@@ -12,7 +12,7 @@ export default function ExperienceCard({ experience }: { experience: Experience 
 
   return (
     <Link href={experience.url} key={experience.slug}>
-      <Card className={"p-0 h-full"}>
+      <Card className={"p-0 h-full bg-accent/50 dark:bg-accent/35"}>
         <MagicCard className={"h-full"} gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}>
           <CardHeader className={clsx("py-6", {
             'grid grid-cols-[1fr_auto] gap-4': experience.logo
@@ -20,7 +20,7 @@ export default function ExperienceCard({ experience }: { experience: Experience 
             {experience.logo && (
               <span className={"h-8 w-8 aspect-square rounded-full bg-gray"} />
             )}
-            <div className={experience.logo ? "" : "flex flex-col gap-8"}>
+            <div className={experience.logo ? "" : "flex flex-col gap-2"}>
               <CardTitle>{experience.companyName}</CardTitle>
               <CardDescription>{experience.role}</CardDescription>
             </div>

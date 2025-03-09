@@ -11,7 +11,7 @@ export default function ProjectCard({ project }: { project: Project } ) {
 
   return (
     <Link href={project.url} key={project.slug}>
-      <Card className={"p-0 h-full"}>
+      <Card className={"p-0 h-full bg-accent/50 dark:bg-accent/35"}>
         <MagicCard className={"h-full"} gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}>
           <CardHeader className={"py-6"}>
             <CardTitle>{project.title}</CardTitle>
