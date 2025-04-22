@@ -13,7 +13,7 @@ export default function ProjectCard({ project }: { project: Project } ) {
   const { theme } = useTheme();
 
   return (
-    <Link href={project.url} key={project.slug}>
+    <Link href={project.url} key={project.slug} referrerPolicy={"no-referrer"} target={"_blank"}>
       <Card className={"p-0 h-full bg-accent/50 dark:bg-accent/35"}>
         <MagicCard className={"h-full"} gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}>
           <div className={"grid grid-cols-[1fr_auto] gap-4"}>

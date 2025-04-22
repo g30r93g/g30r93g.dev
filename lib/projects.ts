@@ -13,6 +13,7 @@ const projectSchema = z.object({
   status: z.enum(['Completed', 'In Progress', 'Archived']), // todo: add 'On Hold'
   icon: z.string().url().optional(),
   image: z.string().url().optional(),
+  url: z.string().url(),
   technologies: z.array(z.string()).optional(),
 })
 
@@ -24,7 +25,7 @@ const projectMapper = (data: z.infer<typeof projectSchema>, content: string, slu
   releaseDate: data.releaseDate ? new Date(data.releaseDate) : undefined,
   archived: data.archived,
   status: data.status,
-  url: `/projects/${slug}`,
+  url: data.url,
   image: data.image,
   technologies: data.technologies,
   content,
