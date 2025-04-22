@@ -28,9 +28,6 @@ export default function Hero() {
         <Link href={"#github-stats"}>
           <Button className={"w-full"} size={"lg"} variant={"outline"}>GitHub Stats</Button>
         </Link>
-        <Link href={"https://github.com/g30r93g/CV"} referrerPolicy={"no-referrer"}>
-          <Button className={"w-full"} size={"lg"} variant={"outline"}>CV<ExternalLink /></Button>
-        </Link>
         <div className={"hidden md:block w-26 lg:w-56"} />
       </div>
     </div>
