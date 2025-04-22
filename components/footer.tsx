@@ -10,7 +10,6 @@ import {useTheme} from "next-themes";
 
 export default function Footer() {
   const { theme, systemTheme } = useTheme();
-  console.log(theme);
 
   const activeTheme = theme === "system" ? systemTheme : theme;
 
