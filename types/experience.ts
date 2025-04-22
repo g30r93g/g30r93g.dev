@@ -9,6 +9,8 @@ type Experience = {
   url: string;
   companyUrl: string;
   content: string;
+  skills?: string[];
+  tools?: string[];
 }
 
 export default Experience;

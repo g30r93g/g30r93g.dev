@@ -9,8 +9,8 @@ export default function ProjectContent({ project }: { project: Project }) {
       <div className={"flex flex-row items-center gap-4"}>
         <span className={"w-8 h-8 rounded-full bg-secondary"} />
         <div>
-          <h1>{project.title}</h1>
-          <h2>{project.description}</h2>
+          <h1 className={"font-medium text-2xl"}>{project.title}</h1>
+          <h2 className={"text-muted-foreground"}>{project.description}</h2>
         </div>
       </div>
       <MDXProvider>

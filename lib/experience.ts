@@ -15,6 +15,8 @@ const experienceSchema = z.object({
   endYear: z.number().optional(),
   endMonth: z.number().optional(),
   companyUrl: z.string().url(),
+  tools: z.array(z.string()).optional(),
+  skills: z.array(z.string()).optional(),
 });
 
 const experienceMapper = (data: z.infer<typeof experienceSchema>, content: string, slug: string): Experience => ({
@@ -27,11 +29,22 @@ const experienceMapper = (data: z.infer<typeof experienceSchema>, content: strin
   endDate: (data.endYear && data.endMonth) ? new Date(`${data.endYear}-${data.endMonth}-01`) : undefined,
   url: `/experience/${slug}`,
   companyUrl: data.companyUrl,
+  tools: data.tools,
+  skills: data.skills,
   content,
 });
 
 export function getAllExperience(): Experience[] {
-  return getMdxList<Experience, typeof experienceSchema>(experiencesDirectory, experienceSchema, experienceMapper);
+  const experience = getMdxList<Experience, typeof experienceSchema>(experiencesDirectory, experienceSchema, experienceMapper);
+
+  // Sort by start date descending
+  experience.sort((a, b) => {
+    if (a.startDate > b.startDate) return -1;
+    if (a.startDate < b.startDate) return 1;
+    return 0;
+  });
+
+  return experience;
 }
 
 export function getSingleExperience(slug: string): Experience | undefined {
