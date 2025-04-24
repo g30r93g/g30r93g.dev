@@ -11,7 +11,7 @@ export default function GithubStats() {
   const { error, loading, userData } = useGithubStats("g30r93g");
 
   return (
-    <div className={"container mx-auto py-16"}>
+    <div id={"github-stats"} className={"container mx-auto py-16"}>
       <h2 className={"font-mono font-medium text-2xl my-8"}>GitHub Stats</h2>
       { (loading || error) && (
         <div className={"flex items-center justify-center"}>
