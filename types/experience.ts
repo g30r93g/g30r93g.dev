@@ -6,6 +6,7 @@ type Experience = {
   logo?: string;
   startDate: Date;
   endDate?: Date;
+  highlight?: boolean;
   url: string;
   companyUrl: string;
   content: string;

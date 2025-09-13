@@ -1,7 +1,7 @@
-import path from "path";
+import { getMdx, getMdxList } from "@/lib/get-mdx";
 import Experience from "@/types/experience";
-import {z} from "zod";
-import {getMdx, getMdxList} from "@/lib/get-mdx";
+import path from "path";
+import { z } from "zod";
 
 const experiencesDirectory = path.join(process.cwd(), "/content/experience");
 
@@ -17,6 +17,7 @@ const experienceSchema = z.object({
   companyUrl: z.string().url(),
   tools: z.array(z.string()).optional(),
   skills: z.array(z.string()).optional(),
+  highlight: z.boolean().optional(),
 });
 
 const experienceMapper = (data: z.infer<typeof experienceSchema>, content: string, slug: string): Experience => ({
@@ -31,11 +32,12 @@ const experienceMapper = (data: z.infer<typeof experienceSchema>, content: strin
   companyUrl: data.companyUrl,
   tools: data.tools,
   skills: data.skills,
+  highlight: data.highlight || false,
   content,
 });
 
-export function getAllExperience(): Experience[] {
-  const experience = getMdxList<Experience, typeof experienceSchema>(experiencesDirectory, experienceSchema, experienceMapper);
+export function getExperience(): Experience[] {
+  let experience = getMdxList<Experience, typeof experienceSchema>(experiencesDirectory, experienceSchema, experienceMapper);
 
   // Sort by start date descending
   experience.sort((a, b) => b.startDate.getTime() - a.startDate.getTime());
