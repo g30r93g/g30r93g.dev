@@ -37,7 +37,7 @@ const experienceMapper = (data: z.infer<typeof experienceSchema>, content: strin
 });
 
 export function getExperience(): Experience[] {
-  let experience = getMdxList<Experience, typeof experienceSchema>(experiencesDirectory, experienceSchema, experienceMapper);
+  const experience = getMdxList<Experience, typeof experienceSchema>(experiencesDirectory, experienceSchema, experienceMapper);
 
   // Sort by start date descending
   experience.sort((a, b) => b.startDate.getTime() - a.startDate.getTime());
