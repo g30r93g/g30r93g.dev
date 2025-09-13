@@ -38,11 +38,7 @@ export function getAllExperience(): Experience[] {
   const experience = getMdxList<Experience, typeof experienceSchema>(experiencesDirectory, experienceSchema, experienceMapper);
 
   // Sort by start date descending
-  experience.sort((a, b) => {
-    if (a.startDate > b.startDate) return -1;
-    if (a.startDate < b.startDate) return 1;
-    return 0;
-  });
+  experience.sort((a, b) => b.startDate.getTime() - a.startDate.getTime());
 
   return experience;
 }
