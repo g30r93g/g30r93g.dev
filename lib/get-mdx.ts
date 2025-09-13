@@ -19,19 +19,24 @@ export function getMdxList<T, S extends z.ZodObject<z.ZodRawShape>>(
       .filter((file) => file.endsWith(".mdx"))
       .map((file) => {
         const filePath = path.join(dir, file);
-        const fileContent = fs.readFileSync(filePath, "utf-8");
-        const { data, content } = matter(fileContent);
-        const slug = file.replace(".mdx", "");
+        try {
+          const fileContent = fs.readFileSync(filePath, "utf-8");
+          const { data, content } = matter(fileContent);
+          const slug = file.replace(".mdx", "");
 
-        // Validate frontmatter using Zod
-        const parsed = schema.safeParse(data);
-        if (!parsed.success) {
-          console.warn(`Skipping ${file}: Invalid frontmatter`, parsed.error.format());
+          // Validate frontmatter using Zod
+          const parsed = schema.safeParse(data);
+          if (!parsed.success) {
+            console.warn(`Skipping ${file}: Invalid frontmatter`, parsed.error.format());
+            return undefined;
+          }
+
+          // Transform to the target type using `typeMap`
+          return typeMap(parsed.data, content, slug);
+        } catch (error) {
+          console.error(`Error processing MDX file: ${filePath}`, error);
           return undefined;
         }
-
-        // Transform to the target type using `typeMap`
-        return typeMap(parsed.data, content, slug);
       })
       .filter((item): item is T => item !== undefined); // Type guard to remove undefined
 
@@ -66,18 +71,23 @@ export function getMdx<T, S extends z.ZodObject<z.ZodRawShape>>(
     }
 
     const filePath = path.join(dir, file);
-    const fileContent = fs.readFileSync(filePath, "utf-8");
-    const { data, content } = matter(fileContent);
+    try {
+      const fileContent = fs.readFileSync(filePath, "utf-8");
+      const { data, content } = matter(fileContent);
 
-    // Validate frontmatter using Zod
-    const parsed = schema.safeParse(data);
-    if (!parsed.success) {
-      console.warn(`Invalid frontmatter in file: ${file}`, parsed.error.format());
+      // Validate frontmatter using Zod
+      const parsed = schema.safeParse(data);
+      if (!parsed.success) {
+        console.warn(`Invalid frontmatter in file: ${file}`, parsed.error.format());
+        return undefined;
+      }
+
+      // Transform to the target type using `typeMap`
+      return typeMap(parsed.data, content, slug);
+    } catch (error) {
+      console.error(`Error processing MDX file: ${filePath}`, error);
       return undefined;
     }
-
-    // Transform to the target type using `typeMap`
-    return typeMap(parsed.data, content, slug);
   } catch (error) {
     console.error("Error processing MDX files:", error);
     return undefined;

@@ -1,8 +1,8 @@
+import ExperienceContent from "@/components/experience/content"
 import {
-  getAllExperience,
+  getExperience,
   getSingleExperience,
 } from "@/lib/experience"
-import ExperienceContent from "@/components/experience/content"
 
 export default async function ExperienceItemPage({
  params,
@@ -20,7 +20,7 @@ export default async function ExperienceItemPage({
 }
 
 export function generateStaticParams() {
-  const experience = getAllExperience()
+  const experience = getExperience()
 
   return experience.map(({ slug }) => { return { slug } })
 }
