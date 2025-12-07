@@ -1,25 +1,25 @@
-'use client'
+"use client";
 
-import ExperienceCard from '@/components/experience/card'
-import type Experience from '@/types/experience'
-import { useMemo, useState } from 'react'
-import { Tabs, TabsList, TabsTrigger } from '../ui/tabs'
+import ExperienceCard from "@/components/experience/card";
+import type Experience from "@/types/experience";
+import { useMemo, useState } from "react";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
-type TabValue = 'all' | 'highlighted'
+type TabValue = "all" | "highlighted";
 
 export default function ExperienceList({
   experiences,
-  initialTab = 'highlighted',
+  initialTab = "highlighted",
 }: {
-  experiences: Experience[]
-  initialTab?: TabValue
+  experiences: Experience[];
+  initialTab?: TabValue;
 }) {
-  const [selectedTab, setSelectedTab] = useState<TabValue>(initialTab)
+  const [selectedTab, setSelectedTab] = useState<TabValue>(initialTab);
 
   const visible = useMemo(() => {
-    if (selectedTab === 'all') return experiences
-    return experiences.filter((xp) => xp.highlight)
-  }, [experiences, selectedTab])
+    if (selectedTab === "all") return experiences;
+    return experiences.filter((xp) => xp.highlight);
+  }, [experiences, selectedTab]);
 
   return (
     <>
@@ -40,5 +40,5 @@ export default function ExperienceList({
         ))}
       </div>
     </>
-  )
+  );
 }

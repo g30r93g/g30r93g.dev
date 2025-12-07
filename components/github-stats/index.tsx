@@ -1,9 +1,15 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { format } from "date-fns";
 import { Loader } from "lucide-react";
-import Image from 'next/image';
+import Image from "next/image";
 import { GitHubCalendar } from "react-github-calendar";
 import useGithubStats from "react-github-user-stats";
 
@@ -13,14 +19,18 @@ export default function GithubStats() {
   return (
     <div id={"github-stats"} className={"container mx-auto py-16"}>
       <h2 className={"font-mono font-medium text-2xl my-8"}>GitHub Stats</h2>
-      { (loading || error) && (
+      {(loading || error) && (
         <div className={"flex items-center justify-center"}>
           {loading && <Loader className={"animate-spin"} />}
           {error && <span>Error fetching user data from GitHub.</span>}
         </div>
       )}
-      { userData && (
-        <div className={"grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[2fr_3fr] gap-4"}>
+      {userData && (
+        <div
+          className={
+            "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[2fr_3fr] gap-4"
+          }
+        >
           <Card className={"h-full w-full"}>
             <CardHeader className={"flex flex-row gap-4"}>
               <Image
@@ -31,21 +41,35 @@ export default function GithubStats() {
                 height={75}
               />
               <div className={"flex flex-col gap-2"}>
-                <CardTitle className={"text-2xl font-mono"}>{userData.username}</CardTitle>
-                <CardDescription>User since {format(userData.created_at, 'd/M/yyyy')}</CardDescription>
+                <CardTitle className={"text-2xl font-mono"}>
+                  {userData.username}
+                </CardTitle>
+                <CardDescription>
+                  User since {format(userData.created_at, "d/M/yyyy")}
+                </CardDescription>
               </div>
             </CardHeader>
-            <CardContent className={"grid grid-cols-3 grid-rows-1 justify-between items-center"}>
+            <CardContent
+              className={
+                "grid grid-cols-3 grid-rows-1 justify-between items-center"
+              }
+            >
               <div className={"flex flex-col gap-2 items-center"}>
-                <span className={"text-4xl font-bold"}>{userData.public_repos}</span>
+                <span className={"text-4xl font-bold"}>
+                  {userData.public_repos}
+                </span>
                 <span>Repositories</span>
               </div>
               <div className={"flex flex-col gap-2 items-center"}>
-                <span className={"text-4xl font-bold"}>{userData.total_stars}</span>
+                <span className={"text-4xl font-bold"}>
+                  {userData.total_stars}
+                </span>
                 <span>Stars</span>
               </div>
               <div className={"flex flex-col gap-2 items-center"}>
-                <span className={"text-4xl font-bold"}>{userData.public_gists}</span>
+                <span className={"text-4xl font-bold"}>
+                  {userData.public_gists}
+                </span>
                 <span>Gists</span>
               </div>
             </CardContent>
@@ -58,5 +82,5 @@ export default function GithubStats() {
         </div>
       )}
     </div>
-  )
+  );
 }

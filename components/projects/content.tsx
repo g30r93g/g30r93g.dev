@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import {MDXProvider} from "@mdx-js/react";
+import { MDXProvider } from "@mdx-js/react";
 import Project from "@/types/project";
 
 export default function ProjectContent({ project }: { project: Project }) {

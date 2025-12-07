@@ -8,12 +8,12 @@ import Footer from "@/components/footer";
 const robotoMono = Roboto_Mono({
   variable: "--font-roboto",
   subsets: ["latin"],
-})
+});
 
 const rethinkSans = Rethink_Sans({
   variable: "--font-rethink-sans",
-  subsets: ["latin"]
-})
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "g30r93g",
@@ -28,16 +28,11 @@ export default function RootLayout({
   // const isDev = process.env.NODE_ENV === 'development';
 
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-    >
-      <body className={`${robotoMono.variable} ${rethinkSans.variable} antialiased`}>
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-        >
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${robotoMono.variable} ${rethinkSans.variable} antialiased`}
+      >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {/*{ isDev && (*/}
           {/*    <div className={"absolute w-full h-4 bg-orange-700 flex flex-row items-center justify-center z-[100] text-xs"}>*/}
           {/*        <CircleAlert className={"h-3"} />*/}
