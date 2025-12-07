@@ -1,11 +1,11 @@
 "use client";
 
-import useGithubStats from "react-github-user-stats";
-import {Loader} from "lucide-react";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import GitHubCalendar from "react-github-calendar";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
-import Image from 'next/image'
+import { Loader } from "lucide-react";
+import Image from 'next/image';
+import { GitHubCalendar } from "react-github-calendar";
+import useGithubStats from "react-github-user-stats";
 
 export default function GithubStats() {
   const { error, loading, userData } = useGithubStats("g30r93g");
