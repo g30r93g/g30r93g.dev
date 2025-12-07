@@ -1,17 +1,27 @@
 "use client";
 
-import { SocialIcon } from "react-social-icons/component";
-import { useTheme } from "next-themes";
-import { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
+import { ComponentPropsWithoutRef, useEffect, useState } from "react";
+import { SocialIcon } from "react-social-icons/component";
 
 export default function SocialNetworksPill({
   className,
   ...props
 }: ComponentPropsWithoutRef<"div">) {
   const { theme, systemTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const activeTheme = theme === "system" ? systemTheme : theme;
+  const fgColor = activeTheme === "dark" ? "white" : "black";
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div
@@ -22,7 +32,7 @@ export default function SocialNetworksPill({
       {...props}
     >
       <SocialIcon
-        fgColor={activeTheme === "dark" ? "white" : "black"}
+        fgColor={fgColor}
         className={
           "rounded-full border border-transparent transition hover:bg-accent hover:border-primary"
         }
@@ -33,7 +43,7 @@ export default function SocialNetworksPill({
         referrerPolicy={"no-referrer"}
       />
       <SocialIcon
-        fgColor={activeTheme === "dark" ? "white" : "black"}
+        fgColor={fgColor}
         className={
           "rounded-full border border-transparent transition hover:bg-accent hover:border-primary"
         }
