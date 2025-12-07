@@ -6,7 +6,7 @@ import { z } from "zod";
 export function getMdxList<T, S extends z.ZodObject<z.ZodRawShape>>(
   dir: string,
   schema: S,
-  typeMap: (data: z.infer<S>, content: string, slug: string) => T
+  typeMap: (data: z.infer<S>, content: string, slug: string) => T,
 ): T[] {
   try {
     console.debug("Reading directory:", dir);
@@ -27,7 +27,10 @@ export function getMdxList<T, S extends z.ZodObject<z.ZodRawShape>>(
           // Validate frontmatter using Zod
           const parsed = schema.safeParse(data);
           if (!parsed.success) {
-            console.warn(`Skipping ${file}: Invalid frontmatter`, parsed.error.format());
+            console.warn(
+              `Skipping ${file}: Invalid frontmatter`,
+              parsed.error.format(),
+            );
             return undefined;
           }
 
@@ -40,7 +43,9 @@ export function getMdxList<T, S extends z.ZodObject<z.ZodRawShape>>(
       })
       .filter((item): item is T => item !== undefined); // Type guard to remove undefined
 
-    console.debug(`${files.length} files detected, ${mappedFiles.length} valid files processed.`);
+    console.debug(
+      `${files.length} files detected, ${mappedFiles.length} valid files processed.`,
+    );
 
     return mappedFiles;
   } catch (error) {
@@ -53,7 +58,7 @@ export function getMdx<T, S extends z.ZodObject<z.ZodRawShape>>(
   dir: string,
   schema: S,
   typeMap: (data: z.infer<S>, content: string, slug: string) => T,
-  slug: string // Added slug parameter to search for a specific project
+  slug: string, // Added slug parameter to search for a specific project
 ): T | undefined {
   try {
     console.debug("Reading directory:", dir);
@@ -78,7 +83,10 @@ export function getMdx<T, S extends z.ZodObject<z.ZodRawShape>>(
       // Validate frontmatter using Zod
       const parsed = schema.safeParse(data);
       if (!parsed.success) {
-        console.warn(`Invalid frontmatter in file: ${file}`, parsed.error.format());
+        console.warn(
+          `Invalid frontmatter in file: ${file}`,
+          parsed.error.format(),
+        );
         return undefined;
       }
 

@@ -1,9 +1,13 @@
-"use client"
+"use client";
 
 import Experience from "@/types/experience";
-import {MDXProvider} from "@mdx-js/react";
+import { MDXProvider } from "@mdx-js/react";
 
-export default function ExperienceContent({ experience }: { experience: Experience }) {
+export default function ExperienceContent({
+  experience,
+}: {
+  experience: Experience;
+}) {
   return (
     <div className={"container mx-auto"}>
       <div className={"flex flex-row items-center gap-4"}>

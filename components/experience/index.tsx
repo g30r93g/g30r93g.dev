@@ -6,8 +6,13 @@ export default function Experience() {
 
   return (
     <div className={"container mx-auto pt-16"}>
-      <h2 id={"experience"} className={"font-mono font-medium text-2xl mt-8 mb-4"}>My Experience</h2>
-      <ExperienceList experiences={experience} initialTab={'highlighted'} />
+      <h2
+        id={"experience"}
+        className={"font-mono font-medium text-2xl mt-8 mb-4"}
+      >
+        My Experience
+      </h2>
+      <ExperienceList experiences={experience} initialTab={"highlighted"} />
     </div>
-  )
+  );
 }

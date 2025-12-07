@@ -12,6 +12,6 @@ type Experience = {
   content: string;
   skills?: string[];
   tools?: string[];
-}
+};
 
 export default Experience;
