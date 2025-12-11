@@ -23,12 +23,13 @@ export default function Hero() {
           name={"George Nick Gorzynski"}
           alias={"g30r93g"}
         />
+        <p className="text-muted-foreground mt-1.5">Software Engineer • Systems Architect • Innovator</p>
         <h2 className={"text-2xl/9 mt-4.5"}>
           Crafting solutions
           <br />
           for interesting problems.
         </h2>
-        <SocialNetworksPill className={"mt-9"} />
+        <SocialNetworksPill className={"mt-6"} />
       </div>
       <div
         className={
