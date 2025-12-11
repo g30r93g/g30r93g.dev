@@ -113,7 +113,6 @@ export default function SocialNetworksPill({
         clientY <= expandedRect.bottom;
 
       if (!insideContainer && nearContainer) {
-        console.log("[SocialNetworksPill] Cursor near container");
         let closestIndex: number | null = null;
         let smallestDistance = Number.POSITIVE_INFINITY;
         iconRefs.current.forEach((icon, idx) => {
@@ -135,16 +134,9 @@ export default function SocialNetworksPill({
           closestIndex !== presetIndex &&
           closestIndex < icons.length
         ) {
-          console.log(
-            "[SocialNetworksPill] Presetting indicator to icon index",
-            closestIndex,
-          );
           presetIndicator(closestIndex);
         }
       } else if (!nearContainer) {
-        if (presetIndex !== null) {
-          console.log("[SocialNetworksPill] Cursor left tracking region");
-        }
         setPresetIndex(null);
       }
     };
