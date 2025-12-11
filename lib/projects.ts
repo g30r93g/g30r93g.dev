@@ -15,6 +15,7 @@ const projectSchema = z.object({
   image: z.string().url().optional(),
   url: z.string().url(),
   technologies: z.array(z.string()).optional(),
+  highlight: z.boolean().optional(),
 });
 
 const projectMapper = (
@@ -32,6 +33,7 @@ const projectMapper = (
   url: data.url,
   image: data.image,
   technologies: data.technologies,
+  highlight: data.highlight || false,
   content,
 });
 

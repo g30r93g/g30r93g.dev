@@ -8,6 +8,7 @@ type Project = {
   status: "Completed" | "In Progress" | "On Hold" | "Archived";
   url: string;
   image?: string;
+  highlight?: boolean;
   content: string;
   technologies?: string[];
 };
