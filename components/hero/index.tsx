@@ -11,7 +11,6 @@ export default function Hero() {
         className="absolute inset-0 z-0 size-full"
         squareSize={4}
         gridGap={12}
-        color="#6B7280"
         maxOpacity={0.25}
         flickerChance={0.1618}
       />

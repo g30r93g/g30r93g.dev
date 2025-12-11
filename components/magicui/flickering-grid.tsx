@@ -1,10 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
+import { useTheme } from "next-themes";
 import React, {
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -24,34 +25,38 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   squareSize = 4,
   gridGap = 6,
   flickerChance = 0.3,
-  color = "rgb(0, 0, 0)",
+  color,
   width,
   height,
   className,
   maxOpacity = 0.3,
   ...props
 }) => {
+  const { resolvedTheme } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
+  const [randomGradient, setRandomGradient] = useState<string | null>(null);
+  const [backgroundColor, setBackgroundColor] = useState("rgb(0, 0, 0)");
 
-  const memoizedColor = useMemo(() => {
-    const toRGBA = (color: string) => {
-      if (typeof window === "undefined") {
-        return `rgba(0, 0, 0,`;
-      }
-      const canvas = document.createElement("canvas");
-      canvas.width = canvas.height = 1;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return "rgba(255, 0, 0,";
-      ctx.fillStyle = color;
-      ctx.fillRect(0, 0, 1, 1);
-      const [r, g, b] = Array.from(ctx.getImageData(0, 0, 1, 1).data);
-      return `rgba(${r}, ${g}, ${b},`;
-    };
-    return toRGBA(color);
-  }, [color]);
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      setBackgroundColor(color || "rgb(0, 0, 0)");
+      return;
+    }
+
+    if (color) {
+      setBackgroundColor(color);
+      return;
+    }
+
+    const root = document.documentElement;
+    const computed = getComputedStyle(root).getPropertyValue(
+      "--color-background",
+    );
+    setBackgroundColor(computed.trim() || "rgb(0, 0, 0)");
+  }, [color, resolvedTheme]);
 
   const setupCanvas = useCallback(
     (canvas: HTMLCanvasElement, width: number, height: number) => {
@@ -94,14 +99,19 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       squares: Float32Array,
       dpr: number,
     ) => {
+      ctx.save();
+      ctx.globalCompositeOperation = "source-over";
+      ctx.globalAlpha = 1;
       ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = "transparent";
+      ctx.fillStyle = backgroundColor;
       ctx.fillRect(0, 0, width, height);
+      ctx.globalCompositeOperation = "destination-out";
 
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
           const opacity = squares[i * rows + j];
-          ctx.fillStyle = `${memoizedColor}${opacity})`;
+          if (opacity <= 0) continue;
+          ctx.globalAlpha = opacity;
           ctx.fillRect(
             i * (squareSize + gridGap) * dpr,
             j * (squareSize + gridGap) * dpr,
@@ -110,9 +120,23 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
           );
         }
       }
+
+      ctx.restore();
     },
-    [memoizedColor, squareSize, gridGap],
+    [backgroundColor, squareSize, gridGap],
   );
+
+  useEffect(() => {
+    const randomAngle = Math.floor(Math.random() * 360);
+    const randomStop1 = Math.floor(Math.random() * 100);
+    const randomStop2 = Math.floor(Math.random() * 100);
+    const randomStop3 = Math.floor(Math.random() * 100);
+    const randomStop4 = Math.floor(Math.random() * 100);
+
+    setRandomGradient(
+      `radial-gradient(circle at center, #9c40ff, transparent 40%), conic-gradient(from ${randomAngle}deg, #9c40ff ${randomStop1}%, #329bd5 ${randomStop2}%, #9c40ff ${randomStop3}%, #329bd5 ${randomStop4}%)`,
+    );
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -183,12 +207,38 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   return (
     <div
       ref={containerRef}
-      className={cn(`h-full w-full ${className}`)}
+      className={cn("relative h-full w-full overflow-hidden", className)}
       {...props}
     >
+      {randomGradient && (
+        <motion.div
+          className="pointer-events-none absolute inset-0 opacity-70 blur-3xl"
+          animate={{
+            y: [0, -30, -50, -10, -35, 0],
+            x: [0, 20, 5, -20, -40, 20, 0],
+            scale: [1, 1.1, 0.85, 1.3, 1.1, 1],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          style={{ willChange: "transform, opacity" }}
+        >
+          <div className="absolute top-1/2 left-1/2 h-full w-full -translate-x-1/4 -translate-y-1/4">
+            <div
+              className="pointer-events-none h-1/2 w-1/2 -translate-x-1/4 -translate-y-1/4 rounded-full"
+              style={{
+                background: randomGradient,
+                filter: "blur(50px)",
+              }}
+            />
+          </div>
+        </motion.div>
+      )}
       <canvas
         ref={canvasRef}
-        className="pointer-events-none"
+        className="pointer-events-none absolute inset-0"
         style={{
           width: canvasSize.width,
           height: canvasSize.height,
