@@ -18,12 +18,12 @@ export default function Hero() {
         className={"container mx-auto font-mono block relative top-[30.9vh]"}
       >
         <NameAliasHoverTitle
-          className={"text-4xl font-medium"}
+          className={"text-xl md:text-2xl lg:text-4xl font-medium"}
           name={"George Nick Gorzynski"}
           alias={"g30r93g"}
         />
         <p className="text-muted-foreground mt-1.5">Software Engineer • Systems Architect • Innovator</p>
-        <h2 className={"text-2xl/9 mt-4.5"}>
+        <h2 className={"text-lg/5 md:text-xl/7 lg:text-2xl/9 mt-4.5"}>
           Crafting solutions
           <br />
           for interesting problems.
