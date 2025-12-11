@@ -1,6 +1,7 @@
 "use client";
 
-import Project from "@/types/project";
+import { MagicCard } from "@/components/magicui/magic-card";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -8,19 +9,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { MagicCard } from "@/components/magicui/magic-card";
-import Link from "next/link";
-import { useTheme } from "next-themes";
-import { Badge } from "@/components/ui/badge";
+import Project from "@/types/project";
 import { clsx } from "clsx";
 import { format } from "date-fns";
+import { useTheme } from "next-themes";
+import Link from "next/link";
 
 export default function ProjectCard({ project }: { project: Project }) {
   const { theme } = useTheme();
 
   return (
     <Link
-      href={project.url}
+      href={project.hostedUrl ?? project.repoUrl}
       key={project.slug}
       referrerPolicy={"no-referrer"}
       target={"_blank"}

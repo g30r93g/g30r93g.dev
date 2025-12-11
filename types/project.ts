@@ -6,7 +6,8 @@ type Project = {
   releaseDate?: Date;
   archived: boolean;
   status: "Completed" | "In Progress" | "On Hold" | "Archived";
-  url: string;
+  hostedUrl?: string;
+  repoUrl: string;
   image?: string;
   highlight?: boolean;
   content: string;
