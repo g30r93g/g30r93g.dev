@@ -1,3 +1,4 @@
+import NameAliasHoverTitle from "@/components/hero/name-alias-hover-title";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 import SocialNetworksPill from "@/components/social-networks";
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,11 @@ export default function Hero() {
       <div
         className={"container mx-auto font-mono block relative top-[30.9vh]"}
       >
-        <h1 className={"text-4xl font-medium"}>g30r93g</h1>
+        <NameAliasHoverTitle
+          className={"text-4xl font-medium"}
+          name={"George Nick Gorzynski"}
+          alias={"g30r93g"}
+        />
         <h2 className={"text-2xl/9 mt-4.5"}>
           Crafting solutions
           <br />
