@@ -155,7 +155,7 @@ export default function SocialNetworksPill({
     <div
       ref={containerRef}
       className={cn(
-        "relative flex flex-row gap-2 h-full w-fit bg-accent/50 dark:bg-accent/35 rounded-full border p-0.5",
+        "relative flex flex-row gap-2 h-fit w-fit bg-accent/50 dark:bg-accent/35 rounded-full border p-0.5",
         className,
       )}
       onMouseLeave={hideIndicator}

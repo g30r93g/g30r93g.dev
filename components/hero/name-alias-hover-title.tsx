@@ -87,10 +87,7 @@ export default function NameAliasHoverTitle({
       {displayChars.map((char, index) => (
         <span
           key={index}
-          className={cn(
-            "inline-block",
-            index >= visibleLimit && "opacity-0",
-          )}
+          className={cn("inline-block", index >= visibleLimit && "opacity-0")}
         >
           {char}
         </span>

@@ -3,12 +3,7 @@
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { useTheme } from "next-themes";
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 interface FlickeringGridProps extends React.HTMLAttributes<HTMLDivElement> {
   squareSize?: number;
@@ -52,9 +47,8 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
     }
 
     const root = document.documentElement;
-    const computed = getComputedStyle(root).getPropertyValue(
-      "--color-background",
-    );
+    const computed =
+      getComputedStyle(root).getPropertyValue("--color-background");
     setBackgroundColor(computed.trim() || "rgb(0, 0, 0)");
   }, [color, resolvedTheme]);
 
