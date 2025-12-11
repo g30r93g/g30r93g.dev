@@ -1,7 +1,7 @@
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
+import SocialNetworksPill from "@/components/social-networks";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import SocialNetworksPill from "@/components/social-networks";
 
 export default function Hero() {
   return (
@@ -19,7 +19,7 @@ export default function Hero() {
       >
         <h1 className={"text-4xl font-medium"}>g30r93g</h1>
         <h2 className={"text-2xl/9 mt-4.5"}>
-          Creating solutions
+          Crafting solutions
           <br />
           for interesting problems.
         </h2>
