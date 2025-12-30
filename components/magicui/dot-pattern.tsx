@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
-import React, { useEffect, useId, useRef, useState } from "react";
+import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 
 /**
  *  DotPattern Component Props
@@ -60,6 +60,11 @@ interface DotPatternProps extends React.SVGProps<SVGSVGElement> {
  * - Dots color can be controlled via the text color utility classes
  */
 
+const pseudoRandom = (seed: number) => {
+  const value = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
+  return value - Math.floor(value);
+};
+
 export function DotPattern({
   width = 16,
   height = 16,
@@ -89,23 +94,32 @@ export function DotPattern({
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
-  const dots = Array.from(
-    {
-      length:
-        Math.ceil(dimensions.width / width) *
-        Math.ceil(dimensions.height / height),
-    },
-    (_, i) => {
-      const col = i % Math.ceil(dimensions.width / width);
-      const row = Math.floor(i / Math.ceil(dimensions.width / width));
+  const dots = useMemo(() => {
+    const columns =
+      width > 0 ? Math.ceil(dimensions.width / width) : 0;
+    const rows =
+      height > 0 ? Math.ceil(dimensions.height / height) : 0;
+
+    if (columns === 0 || rows === 0) {
+      return [];
+    }
+
+    const totalDots = columns * rows;
+
+    return Array.from({ length: totalDots }, (_, i) => {
+      const col = i % columns;
+      const row = Math.floor(i / columns);
+      const delaySeed = pseudoRandom(i * 2 + 1);
+      const durationSeed = pseudoRandom(i * 2 + 2);
+
       return {
         x: col * width + cx,
         y: row * height + cy,
-        delay: Math.random() * 5,
-        duration: Math.random() * 3 + 2,
+        delay: delaySeed * 5,
+        duration: durationSeed * 3 + 2,
       };
-    },
-  );
+    });
+  }, [cx, cy, dimensions.height, dimensions.width, height, width]);
 
   return (
     <svg

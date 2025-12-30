@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import {
   ComponentPropsWithoutRef,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -16,7 +17,6 @@ export default function SocialNetworksPill({
   ...props
 }: ComponentPropsWithoutRef<"div">) {
   const { theme, systemTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const iconRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [indicator, setIndicator] = useState({
@@ -27,10 +27,6 @@ export default function SocialNetworksPill({
     visible: false,
   });
   const [presetIndex, setPresetIndex] = useState<number | null>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const activeTheme = theme === "system" ? systemTheme : theme;
   const fgColor = activeTheme === "dark" ? "white" : "black";
@@ -49,40 +45,49 @@ export default function SocialNetworksPill({
     [],
   );
 
-  const setIndicatorPosition = (index: number, visible: boolean) => {
-    const target = iconRefs.current[index];
-    const container = containerRef.current;
-    if (!target || !container) {
-      return;
-    }
+  const setIndicatorPosition = useCallback(
+    (index: number, visible: boolean) => {
+      const target = iconRefs.current[index];
+      const container = containerRef.current;
+      if (!target || !container) {
+        return;
+      }
 
-    const targetRect = target.getBoundingClientRect();
-    const containerRect = container.getBoundingClientRect();
-    const offset = 3;
-    const left = targetRect.left - containerRect.left - offset;
-    const top = targetRect.top - containerRect.top - offset;
+      const targetRect = target.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      const offset = 3;
+      const left = targetRect.left - containerRect.left - offset;
+      const top = targetRect.top - containerRect.top - offset;
 
-    setIndicator({
-      left,
-      top,
-      width: targetRect.width,
-      height: targetRect.height,
-      visible,
-    });
-  };
+      setIndicator({
+        left,
+        top,
+        width: targetRect.width,
+        height: targetRect.height,
+        visible,
+      });
+    },
+    [],
+  );
 
-  const updateIndicator = (index: number) => {
-    setIndicatorPosition(index, true);
-  };
+  const updateIndicator = useCallback(
+    (index: number) => {
+      setIndicatorPosition(index, true);
+    },
+    [setIndicatorPosition],
+  );
 
-  const presetIndicator = (index: number) => {
-    setIndicatorPosition(index, false);
-    setPresetIndex(index);
-  };
+  const presetIndicator = useCallback(
+    (index: number) => {
+      setIndicatorPosition(index, false);
+      setPresetIndex(index);
+    },
+    [setIndicatorPosition],
+  );
 
-  const hideIndicator = () => {
+  const hideIndicator = useCallback(() => {
     setIndicator((prev) => ({ ...prev, visible: false }));
-  };
+  }, []);
 
   useEffect(() => {
     const handlePointerMove = (event: PointerEvent) => {
@@ -145,11 +150,7 @@ export default function SocialNetworksPill({
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
     };
-  }, [icons.length, presetIndex]);
-
-  if (!mounted) {
-    return null;
-  }
+  }, [icons.length, presetIndex, presetIndicator]);
 
   return (
     <div

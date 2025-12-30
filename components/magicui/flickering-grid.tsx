@@ -3,7 +3,19 @@
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { useTheme } from "next-themes";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+
+const deterministicRandomFromSeed = (seed: number) => {
+  const value = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
+  return value - Math.floor(value);
+};
 
 interface FlickeringGridProps extends React.HTMLAttributes<HTMLDivElement> {
   squareSize?: number;
@@ -32,24 +44,47 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
-  const [randomGradient, setRandomGradient] = useState<string | null>(null);
-  const [backgroundColor, setBackgroundColor] = useState("rgb(0, 0, 0)");
+  const gradientSeed = useId();
+  const randomGradient = useMemo(() => {
+    const numericSeed = Array.from(gradientSeed).reduce(
+      (acc, char) => acc + (char.codePointAt(0) ?? 0),
+      0,
+    );
 
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      setBackgroundColor(color || "rgb(0, 0, 0)");
-      return;
+    const randomAngle = Math.floor(
+      deterministicRandomFromSeed(numericSeed) * 360,
+    );
+    const randomStop1 = Math.floor(
+      deterministicRandomFromSeed(numericSeed + 1) * 100,
+    );
+    const randomStop2 = Math.floor(
+      deterministicRandomFromSeed(numericSeed + 2) * 100,
+    );
+    const randomStop3 = Math.floor(
+      deterministicRandomFromSeed(numericSeed + 3) * 100,
+    );
+    const randomStop4 = Math.floor(
+      deterministicRandomFromSeed(numericSeed + 4) * 100,
+    );
+
+    return `radial-gradient(circle at center, #9c40ff, transparent 40%), conic-gradient(from ${randomAngle}deg, #9c40ff ${randomStop1}%, #329bd5 ${randomStop2}%, #9c40ff ${randomStop3}%, #329bd5 ${randomStop4}%)`;
+  }, [gradientSeed]);
+
+  const backgroundColor = useMemo(() => {
+    if (color) {
+      return color;
     }
 
-    if (color) {
-      setBackgroundColor(color);
-      return;
+    if (typeof window === "undefined") {
+      return "rgb(0, 0, 0)";
     }
 
     const root = document.documentElement;
     const computed =
       getComputedStyle(root).getPropertyValue("--color-background");
-    setBackgroundColor(computed.trim() || "rgb(0, 0, 0)");
+    const fallbackColor =
+      resolvedTheme === "dark" ? "rgb(0, 0, 0)" : "rgb(255, 255, 255)";
+    return computed.trim() || fallbackColor;
   }, [color, resolvedTheme]);
 
   const setupCanvas = useCallback(
@@ -119,18 +154,6 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
     },
     [backgroundColor, squareSize, gridGap],
   );
-
-  useEffect(() => {
-    const randomAngle = Math.floor(Math.random() * 360);
-    const randomStop1 = Math.floor(Math.random() * 100);
-    const randomStop2 = Math.floor(Math.random() * 100);
-    const randomStop3 = Math.floor(Math.random() * 100);
-    const randomStop4 = Math.floor(Math.random() * 100);
-
-    setRandomGradient(
-      `radial-gradient(circle at center, #9c40ff, transparent 40%), conic-gradient(from ${randomAngle}deg, #9c40ff ${randomStop1}%, #329bd5 ${randomStop2}%, #9c40ff ${randomStop3}%, #329bd5 ${randomStop4}%)`,
-    );
-  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
