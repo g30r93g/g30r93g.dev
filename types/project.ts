@@ -7,7 +7,7 @@ type Project = {
   archived: boolean;
   status: "Completed" | "In Progress" | "On Hold" | "Archived";
   hostedUrl?: string;
-  repoUrl: string;
+  repoUrl?: string;
   image?: string;
   highlight?: boolean;
   content: string;

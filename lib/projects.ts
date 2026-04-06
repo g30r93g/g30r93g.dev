@@ -14,7 +14,7 @@ const projectSchema = z.object({
   icon: z.url().optional(),
   image: z.url().optional(),
   hostedUrl: z.url().optional(),
-  repoUrl: z.url(),
+  repoUrl: z.url().optional(),
   technologies: z.array(z.string()).optional(),
   highlight: z.boolean().optional(),
 });
