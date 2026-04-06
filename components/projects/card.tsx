@@ -20,7 +20,7 @@ export default function ProjectCard({ project }: { project: Project }) {
 
   return (
     <Link
-      href={project.hostedUrl ?? project.repoUrl}
+      href={project.hostedUrl ?? project.repoUrl ?? "#"}
       key={project.slug}
       referrerPolicy={"no-referrer"}
       target={"_blank"}
