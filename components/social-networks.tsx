@@ -17,6 +17,7 @@ export default function SocialNetworksPill({
   ...props
 }: ComponentPropsWithoutRef<"div">) {
   const { theme, systemTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const iconRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [indicator, setIndicator] = useState({
@@ -28,8 +29,12 @@ export default function SocialNetworksPill({
   });
   const [presetIndex, setPresetIndex] = useState<number | null>(null);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const activeTheme = theme === "system" ? systemTheme : theme;
-  const fgColor = activeTheme === "dark" ? "white" : "black";
+  const fgColor = mounted ? (activeTheme === "dark" ? "white" : "black") : "currentColor";
 
   const icons = useMemo(
     () => [
