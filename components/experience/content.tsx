@@ -1,7 +1,5 @@
-"use client";
-
 import Experience from "@/types/experience";
-import { MDXProvider } from "@mdx-js/react";
+import { MDXRemote } from "next-mdx-remote/rsc";
 
 export default function ExperienceContent({
   experience,
@@ -18,9 +16,9 @@ export default function ExperienceContent({
         </div>
       </div>
 
-      <MDXProvider>
-        <div>{experience.content}</div>
-      </MDXProvider>
+      <div className={"mt-6 prose prose-neutral dark:prose-invert max-w-none"}>
+        <MDXRemote source={experience.content} />
+      </div>
     </div>
   );
 }
