@@ -1,0 +1,192 @@
+---
+title: "Goal-Driven Development"
+description: "A delivery methodology for 0→1 products in the LLM era. Estimation is broken; goal-completion velocity is the only honest signal left."
+draft: true
+publishedYear: 2026
+publishedMonth: 5
+publishedDay: 10
+tags:
+  - "Methodology"
+  - "Engineering"
+  - "LLMs"
+  - "Process"
+---
+
+For decades, software methodologies have rested on a quiet assumption: that effort is roughly knowable. Scrum's velocity, Shape Up's appetite, SAFe's program increments — they all need estimates underneath, even when they pretend they don't. Story points are estimates with a costume on.
+
+LLM-assisted development broke that assumption.
+
+A feature can take twenty minutes or three weeks depending on whether the model gets the abstraction right on the first attempt. The variance isn't a curve you can plan around; it's a discontinuity. A team's "velocity" in points-per-sprint now reflects the quality of the prompts more than the quality of the engineering. The numbers look like measurement; they're really theatre.
+
+I've been working on 0→1 products through this transition, and it's become clear that the planning ceremonies most teams still run are coping mechanisms, not management. So I've been formalising what actually works. I'm calling it Goal-Driven Development.
+
+## The Premise
+
+Goal-Driven Development (GDD) is a delivery methodology for 0→1 products in the LLM era. It replaces estimates with goal-completion velocity as the only truth signal, and it draws sharper lines between roles than most methodologies dare to.
+
+Three role contracts:
+
+- **Product owns the *what*** — stakeholders, requirements, ordering.
+- **Engineering owns the *how* and roughly *when*** — decomposition, execution, pace.
+- **Execs read the rolling rate of goal completion.** Dates are forecasts, not commitments.
+
+That third point is the hard one. It's a renegotiation of the product–engineering contract that some organisations won't accept. The ones that do will outrun the ones that don't.
+
+GDD targets 0→1, where the dominant risk is building the wrong thing, not bugs in production. For mature products with stable requirements, use Scrum or Kanban. The mechanics in this article assume the discovery loop is still hot.
+
+## The Primitive: Goals
+
+A *Goal* is a cluster of functional and non-functional requirements that, delivered together, produce a stakeholder-visible outcome. Every Goal must declare:
+
+- A **completion criterion** — objective, demonstrable, no fudging.
+- A **kill criterion** — when this Goal becomes not worth finishing.
+
+The kill criterion is the part most teams forget. Goals without one accumulate sunk cost. In 0→1, half your Goals turn out to be wrong; you need a graceful exit, not a death march.
+
+Goals are not Jira epics. They are not stories with the serial numbers filed off. They are units of stakeholder-visible outcome that take however long they take.
+
+### Sub-goals (one level deep)
+
+Goals can decompose into sub-goals. Exactly one level. Sub-sub-goals are forbidden.
+
+The constraint is the discipline. Most methodologies fail by allowing arbitrary nesting — epic → feature → story → subtask → … — and teams end up grooming the tree more than building the thing. Capping at one level forces honest decomposition: if a sub-goal needs sub-sub-goals, the parent Goal was wrong. Split it.
+
+Sub-goals also give you partial-credit signal without re-introducing estimates. *"Goal at 60%, three of five sub-goals done"* is a real progress indicator. It's the closest thing to a burndown that survives the anti-timebox stance.
+
+## The Noise Log
+
+While building toward a Goal, you encounter things. A weird empty state. A potential bug elsewhere. An idea for a related feature. A hardening concern. None of it critical to the active Goal.
+
+In most workflows you have two options: fix it now (derail) or forget it (lose signal). Neither works.
+
+GDD adds a third: log it.
+
+Every observation that isn't critical to the active Goal goes into the **noise log**, tagged to the Goal. You don't act on it. You don't fix it. You don't even debate it. You record it and keep moving.
+
+When the Goal completes, you process the noise log. Each entry gets one of three fates:
+
+1. **Maps to an existing FR/NFR.** Schedule it into the appropriate future Goal.
+2. **Doesn't match anything.** It goes into the **creep ledger**.
+3. **Pure noise.** Discarded — but only after a moment of honest review.
+
+The noise log is the audit trail that replaces velocity charts. Execs can see what was deferred and why, which is more honest than a burndown.
+
+## The Creep Ledger
+
+The creep ledger is what makes GDD interesting.
+
+Every noise item that doesn't match an existing requirement gets an entry, with a count starting at 1. When you see the same kind of thing again, you increment the count instead of creating a new entry. When any entry hits **three**, it gets promoted: it becomes an FR or NFR, and a Goal is created or extended to cover it.
+
+Why three? Because one is a fluke, two is a coincidence, and three is signal. The threshold is a heuristic, not a law — but it's a heuristic that does real work. It filters one-off complaints from genuine emergent requirements without requiring judgement in the moment. The judgement is built into the rule.
+
+This is GDD's quiet superpower. In 0→1, you don't *know* the spec — you discover it by building. Recurring friction during execution is exactly where missing requirements hide. The creep ledger turns that signal into a structured artefact instead of tribal knowledge.
+
+## De-risking Goals and Tripwires
+
+There's an obvious objection to "defer everything that isn't critical to the goal": what about security, data integrity, and the architectural shortcuts you took to ship faster?
+
+GDD's answer: those become a *de-risking Goal*.
+
+A de-risking Goal is a Goal whose FRs and NFRs are drawn from the deferred hardening backlog and the creep ledger. It runs through the same lifecycle as any feature Goal. The point is to make the cleanup work first-class, not optional.
+
+But the framework needs one more thing: **tripwires**.
+
+A tripwire is an event that forces a de-risking Goal to the front of the queue. First external user. First paying customer. First real user data in the system. First regulatory threshold crossed. The tripwire must be defined *before* the corresponding shortcut is taken; defining it retroactively is too late.
+
+Tripwires are how you keep "ship now, harden later" from quietly becoming "ship now, harden never." They are the structured form of the engineering instinct that says *this is fine for now, but not after we have ten paying customers*.
+
+## WIP Limits
+
+Without timeboxes, **work-in-progress limits become the primary mechanism preventing sprawl**. Probably 1–2 Goals in progress per developer. Otherwise the number of in-progress Goals grows without the number of completed Goals growing — which looks fine on paper but means nothing is shipping.
+
+This is where GDD differs sharply from old-school Kanban. WIP limits in Kanban were about flow optimisation. In GDD, they're about preventing the anti-timebox stance from becoming an excuse to never finish anything.
+
+## Standup, Reformatted
+
+If you remove timeboxes and estimates, what does standup look like?
+
+A three-number broadcast: **N goals completed since last standup, M goals in progress, K noise items logged.**
+
+That's it. No round-robin. No "what I did yesterday." No theatrical confessionals about being blocked.
+
+The numbers do the work that scrum masters used to do. Fast week? N is high. Stuck week? N is small and M is unchanged from yesterday — which is itself the signal. You don't need anyone to *announce* they're stuck; the numbers say it.
+
+When M hasn't moved in days, you drop into sub-goal granularity for that specific Goal and ask why. Standup stays short; investigation happens on demand.
+
+This format also makes async standup trivially viable. The numbers can be auto-generated from whatever tracks Goals — Linear, a markdown file, whatever. You don't need a meeting; you need a dashboard. For solo founders and small distributed teams, this is the actual win. Standup ceremony was always a tax on small teams; this removes it.
+
+## Stall Detection (Without a Clock)
+
+The hardest objection to losing timeboxes is reasonable: *how do we know if we're stuck?*
+
+GDD's answer: a Goal is stalled if no sub-goal has completed in N *sessions* (not N *days*).
+
+Sessions, not wall-clock. Why: an LLM-augmented developer in flow can finish three sub-goals before lunch on a good day and zero on a bad one. Wall-clock doesn't reflect actual work; sessions do. The exact value of N is team-calibrated, not legislated by the framework.
+
+A stalled Goal isn't punitive. It's diagnostic. The resolution options are:
+
+1. **Decompose further** — current sub-goals were too large.
+2. **Invoke the kill criterion** — this Goal isn't worth finishing.
+3. **Escalate to product** — the Goal was misframed.
+
+Three options, all honest. None of them are "push harder." The framework doesn't shame stalls; it routes them.
+
+## When NOT to Use GDD
+
+GDD is not a universal methodology. Three cases where it breaks:
+
+- **Mature products with stable requirements.** Estimation works there. Use Scrum or Kanban.
+- **Regulatory or safety-critical domains.** GDD's "defer hardening" premise is dangerous. Don't.
+- **Teams larger than ~10 with heavy cross-team dependencies.** WIP limits and goal-level visibility need extension to scale to that size; the framework as written doesn't address coordination problems at that level.
+
+Use the right tool. GDD is for small teams shipping 0→1 work under variance. That's it.
+
+## Anti-Patterns
+
+A few patterns that look like GDD but break it:
+
+- **Sub-sub-goals.** The parent Goal was wrong. Split it.
+- **Goals without kill criteria.** They accumulate sunk cost. Always declare both criteria.
+- **Noise log as graveyard.** Every entry must be processed at goal completion. No "we'll get to it."
+- **Creep ledger without counts.** The count-of-three rule is what prevents the ledger from becoming a backlog.
+- **Date commitments from execs.** GDD produces forecasts, not commitments. Treat dates probabilistically or don't use the framework.
+- **Retroactive tripwires.** If you defined the tripwire after taking the shortcut, you're already past it.
+
+## Prior Art
+
+The name "Goal-Driven Development" is technically taken. There's a 2006 academic methodology — Goal-Driven Software Development Process (GDP) by Schnabel and Pizka, presented at an IEEE/NASA workshop — that shares the goal-first instinct and a few mechanics: goals, sub-goals, iterative re-evaluation, stakeholder collaboration.
+
+The high-level shape rhymes. The underlying assumptions don't.
+
+GDP was built for traditional, estimable enterprise development. It assumes formal roles (business analysts, requirements engineers, software architects), KAOS-style formal goal specification, and predictable effort. It's an artefact of its era — pre-LLM, pre-cloud, pre-product-led growth.
+
+The piece of GDP worth borrowing is its GQM lineage — Goal-Question-Metric. Each goal carries an explicit question (*"what would tell us this is achieved?"*) and a metric. That sharpens how completion criteria get written, and I've been folding it into how I express GDD's completion criteria.
+
+The rest — anti-timebox stance grounded in LLM variance, the sub-goal cap, the noise log, the creep ledger with count-of-three, de-risking Goals with tripwires, the N/M/K standup, session-based stall detection — is new. Or at least, new in this combination. Most of these mechanics resemble informal practices that high-functioning small teams already run; the contribution is making them load-bearing instead of folkloric.
+
+The other closest analogues:
+
+- **Shape Up** (Basecamp). Aggressive build, defer rabbit holes, dedicated cooldown. The core energy is the same. GDD drops the six-week appetite because LLM variance breaks it, and formalises the rabbit-hole log into noise log + creep ledger.
+- **#NoEstimates** (Vasco Duarte, Woody Zuill). The philosophical ancestor for the anti-estimation stance. GDD grounds it mechanically in LLM variance and adds the goal/noise/creep machinery.
+- **Impact Mapping** (Gojko Adzic). Stakeholder → goal decomposition. Very close to GDD's top half. GDD adds the execution discipline.
+- **Lean Startup**. Compatible. GDD is the build discipline; Lean Startup is the learn discipline.
+
+If you want a one-line lineage: GDD is what Shape Up looks like after #NoEstimates becomes mechanically necessary.
+
+## What I'm Still Working Out
+
+GDD isn't finished. A few open questions I'm chewing on:
+
+- **Sub-goal parallelism.** Sequential by default, or parallel allowed within a Goal? Either is defensible. I currently lean sequential, but parallelism may be the right default in a multi-developer team.
+- **Calibrating N for stall detection.** "Sessions, not wall-clock" is correct in spirit but needs a concrete operational definition per team. I haven't found a good universal default.
+- **Creep ledger threshold tuning.** Count-of-three is a starting heuristic. Higher-stakes domains may want to weight by stakeholder impact rather than frequency alone.
+
+Two larger threads I'm explicitly *parking* for separate write-ups: the question of what to call this thing given the 2006 prior art, and the deeper question of how this framework shapes — or is shaped by — LLM agents executing against it directly. Both deserve their own treatment.
+
+---
+
+Goal-Driven Development isn't trying to be the One True Methodology. It's an attempt to be honest about how 0→1 work has actually changed in the last few years, and to give the changes a structure rather than pretending it's still 2018.
+
+If you've felt your sprint-based ceremonies grinding against the reality of your work — if velocity charts feel like fiction and timeboxes feel like negotiation theatre — the diagnosis is probably the same one I had: the underlying assumption broke, and the methodology you're using never updated.
+
+Try shipping a Goal instead.
