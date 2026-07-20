@@ -1,6 +1,7 @@
 "use client";
 
 import { MagicCard } from "@/components/magicui/magic-card";
+import Logo from "@/components/logo";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -31,9 +32,12 @@ export default function ProjectCard({ project }: { project: Project }) {
           gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}
         >
           <div className={"grid grid-cols-[1fr_auto] gap-4"}>
-            <CardHeader className={"py-6"}>
-              <CardTitle>{project.title}</CardTitle>
-              <CardDescription>{project.description}</CardDescription>
+            <CardHeader className={"py-6 grid grid-cols-[auto_1fr] gap-3"}>
+              <Logo className={"w-8 h-8 mt-0.5"} src={project.icon} />
+              <div>
+                <CardTitle>{project.title}</CardTitle>
+                <CardDescription>{project.description}</CardDescription>
+              </div>
             </CardHeader>
             <Badge
               className={clsx("bg-muted/50 mt-4 mr-4 rounded-full h-fit", {

@@ -1,4 +1,5 @@
 import { getMdx, getMdxList } from "@/lib/get-mdx";
+import { assetPathSchema } from "@/lib/schema";
 import Project from "@/types/project";
 import path from "path";
 import { z } from "zod";
@@ -11,8 +12,7 @@ const projectSchema = z.object({
   releaseDate: z.string().date().optional(),
   archived: z.boolean().optional().default(false),
   status: z.enum(["Completed", "In Progress", "Archived"]), // todo: add 'On Hold'
-  icon: z.url().optional(),
-  image: z.url().optional(),
+  icon: assetPathSchema,
   hostedUrl: z.url().optional(),
   repoUrl: z.url().optional(),
   technologies: z.array(z.string()).optional(),
@@ -33,7 +33,6 @@ const projectMapper = (
   status: data.status,
   hostedUrl: data.hostedUrl,
   repoUrl: data.repoUrl,
-  image: data.image,
   technologies: data.technologies,
   highlight: data.highlight || false,
   content,

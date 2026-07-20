@@ -1,6 +1,7 @@
 "use client";
 
 import Experience from "@/types/experience";
+import Logo from "@/components/logo";
 import {
   Card,
   CardContent,
@@ -32,12 +33,14 @@ export default function ExperienceCard({
           <div className={"grid grid-cols-[1fr_auto] gap-4"}>
             <CardHeader
               className={clsx("py-6", {
-                "grid grid-cols-[1fr_auto] gap-4": experience.logo,
+                "grid grid-cols-[auto_1fr] gap-3": experience.logo,
               })}
             >
               {experience.logo && (
-                <span
-                  className={"h-8 w-8 aspect-square rounded-full bg-gray"}
+                <Logo
+                  background={experience.logoBackground}
+                  className={"h-8 w-8 mt-0.5"}
+                  src={experience.logo}
                 />
               )}
               <div className={experience.logo ? "" : "flex flex-col gap-2"}>

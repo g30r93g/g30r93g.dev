@@ -4,6 +4,7 @@ type Experience = {
   description?: string;
   slug: string;
   logo?: string;
+  logoBackground?: string;
   startDate: Date;
   endDate?: Date;
   highlight?: boolean;

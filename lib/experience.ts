@@ -1,4 +1,5 @@
 import { getMdx, getMdxList } from "@/lib/get-mdx";
+import { assetPathSchema } from "@/lib/schema";
 import Experience from "@/types/experience";
 import path from "path";
 import { z } from "zod";
@@ -9,7 +10,8 @@ const experienceSchema = z.object({
   companyName: z.string(),
   role: z.string(),
   description: z.string().optional(),
-  logo: z.string().url().optional(),
+  logo: assetPathSchema,
+  logoBackground: z.string().optional(),
   startYear: z.number(),
   startMonth: z.number(),
   endYear: z.number().optional(),
@@ -30,6 +32,7 @@ const experienceMapper = (
   description: data.description,
   slug: slug,
   logo: data.logo,
+  logoBackground: data.logoBackground,
   startDate: new Date(`${data.startYear}-${data.startMonth}-01`),
   endDate:
     data.endYear && data.endMonth
