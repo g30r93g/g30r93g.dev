@@ -222,9 +222,6 @@ export default function Home() {
         <span className={"label"}>
           © {BUILT.getFullYear()} {NAME}
         </span>
-        <span className={"label kbd-hint"}>
-          Themes <span className={"kbd"}>1</span>–<span className={"kbd"}>{THEME_IDS.length}</span>
-        </span>
       </footer>
     </HomeProvider>
   );
