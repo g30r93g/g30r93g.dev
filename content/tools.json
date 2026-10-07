@@ -1,0 +1,272 @@
+{
+  "_comment": "Logos for the tooling strip on the home page. Order here is the display order (grouped by purpose: languages, frontend, desktop and mobile, APIs, auth, databases, media, payments, hosting, analytics, build and testing, developer tools, AI, design and project management). Project stacks come from `technologies` in content/projects/*.mdx; `personal` is the g30r93g theme's stack. After adding a tool, run scripts/fetch-tool-logos.py.",
+  "personal": [
+    "react",
+    "typescript",
+    "tailwind",
+    "shadcn",
+    "github",
+    "vercel",
+    "claude",
+    "openai",
+    "lucide",
+    "nextjs",
+    "nuxt",
+    "postgres",
+    "neon",
+    "convex",
+    "betterauth",
+    "remotion",
+    "fastify",
+    "posthog",
+    "vitest",
+    "turborepo",
+    "docker",
+    "paper",
+    "linear",
+    "vscode",
+    "terminal"
+  ],
+  "tools": {
+    "typescript": {
+      "name": "TypeScript",
+      "source": {
+        "url": "https://svgl.app/library/typescript.svg"
+      }
+    },
+    "swift": {
+      "name": "Swift",
+      "source": {
+        "url": "https://svgl.app/library/swift.svg"
+      }
+    },
+    "react": {
+      "name": "React",
+      "source": {
+        "url": "https://svgl.app/library/react_dark.svg"
+      }
+    },
+    "nextjs": {
+      "name": "Next.js",
+      "source": {
+        "url": "https://svgl.app/library/nextjs_icon_dark.svg"
+      }
+    },
+    "nuxt": {
+      "name": "Nuxt",
+      "source": {
+        "url": "https://svgl.app/library/nuxt.svg"
+      }
+    },
+    "tailwind": {
+      "name": "Tailwind",
+      "source": {
+        "url": "https://svgl.app/library/tailwindcss.svg"
+      },
+      "aliases": [
+        "Tailwind CSS"
+      ]
+    },
+    "shadcn": {
+      "name": "shadcn/ui",
+      "source": {
+        "url": "https://svgl.app/library/shadcn-ui_dark.svg"
+      }
+    },
+    "lucide": {
+      "name": "Lucide",
+      "source": {
+        "simpleIcons": "lucide",
+        "color": "#F56565"
+      }
+    },
+    "electron": {
+      "name": "Electron",
+      "source": {
+        "url": "https://svgl.app/library/electron.svg"
+      }
+    },
+    "ios": {
+      "name": "iOS",
+      "source": {
+        "url": "https://svgl.app/library/apple_dark.svg"
+      }
+    },
+    "fastify": {
+      "name": "Fastify",
+      "source": {
+        "url": "https://svgl.app/library/fastify_dark.svg"
+      }
+    },
+    "betterauth": {
+      "name": "Better Auth",
+      "source": {
+        "url": "https://svgl.app/library/better-auth_dark.svg"
+      }
+    },
+    "postgres": {
+      "name": "PostgreSQL",
+      "source": {
+        "url": "https://svgl.app/library/postgresql.svg"
+      },
+      "aliases": [
+        "Postgres"
+      ]
+    },
+    "neon": {
+      "name": "Neon",
+      "source": {
+        "url": "https://svgl.app/library/neon.svg"
+      }
+    },
+    "convex": {
+      "name": "Convex",
+      "source": {
+        "url": "https://svgl.app/library/convex.svg"
+      }
+    },
+    "drizzle": {
+      "name": "Drizzle",
+      "source": {
+        "url": "https://svgl.app/library/drizzle-orm_dark.svg"
+      },
+      "aliases": [
+        "Drizzle ORM"
+      ]
+    },
+    "remotion": {
+      "name": "Remotion",
+      "source": {
+        "url": "https://svgl.app/library/remotion.svg"
+      }
+    },
+    "ffmpeg": {
+      "name": "FFmpeg",
+      "source": {
+        "simpleIcons": "ffmpeg",
+        "color": "#007808"
+      }
+    },
+    "stripe": {
+      "name": "Stripe",
+      "source": {
+        "url": "https://svgl.app/library/stripe.svg"
+      }
+    },
+    "vercel": {
+      "name": "Vercel",
+      "source": {
+        "url": "https://svgl.app/library/vercel_dark.svg"
+      }
+    },
+    "aws": {
+      "name": "AWS",
+      "source": {
+        "url": "https://svgl.app/library/aws_dark.svg"
+      },
+      "aliases": [
+        "AWS CDK",
+        "AWS Lambda",
+        "AWS S3",
+        "AWS SQS",
+        "AWS Step Functions"
+      ]
+    },
+    "docker": {
+      "name": "Docker",
+      "source": {
+        "url": "https://svgl.app/library/docker.svg"
+      }
+    },
+    "posthog": {
+      "name": "PostHog",
+      "source": {
+        "url": "https://svgl.app/library/posthog.svg"
+      }
+    },
+    "turborepo": {
+      "name": "Turborepo",
+      "source": {
+        "url": "https://svgl.app/library/turborepo-icon-dark.svg"
+      },
+      "aliases": [
+        "Turbo"
+      ]
+    },
+    "vite": {
+      "name": "Vite",
+      "source": {
+        "url": "https://svgl.app/library/vite.svg"
+      }
+    },
+    "vitest": {
+      "name": "Vitest",
+      "source": {
+        "url": "https://svgl.app/library/vitest.svg"
+      }
+    },
+    "github": {
+      "name": "GitHub",
+      "source": {
+        "url": "https://svgl.app/library/github_dark.svg"
+      }
+    },
+    "vscode": {
+      "name": "Visual Studio Code",
+      "source": {
+        "url": "https://svgl.app/library/vscode.svg"
+      },
+      "aliases": [
+        "VS Code"
+      ]
+    },
+    "terminal": {
+      "name": "Terminal",
+      "source": {
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#e5e5e5\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 11 2-2-2-2\"/><path d=\"M11 13h4\"/><rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" ry=\"2\"/></svg>"
+      }
+    },
+    "xcode": {
+      "name": "Xcode",
+      "source": {
+        "simpleIcons": "xcode",
+        "color": "#147EFB"
+      }
+    },
+    "wireshark": {
+      "name": "Wireshark",
+      "source": {
+        "simpleIcons": "wireshark",
+        "color": "#1679A7"
+      }
+    },
+    "claude": {
+      "name": "Claude",
+      "source": {
+        "url": "https://svgl.app/library/claude-ai-icon.svg"
+      }
+    },
+    "openai": {
+      "name": "ChatGPT",
+      "source": {
+        "url": "https://svgl.app/library/openai_dark.svg"
+      },
+      "aliases": [
+        "OpenAI"
+      ],
+      "viewBox": "97 97 416 416"
+    },
+    "paper": {
+      "name": "Paper",
+      "source": {
+        "url": "https://svgl.app/library/paper.svg"
+      }
+    },
+    "linear": {
+      "name": "Linear",
+      "source": {
+        "url": "https://svgl.app/library/linear.svg"
+      }
+    }
+  }
+}

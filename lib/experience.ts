@@ -20,6 +20,7 @@ const experienceSchema = z.object({
   tools: z.array(z.string()).optional(),
   skills: z.array(z.string()).optional(),
   highlight: z.boolean().optional(),
+  type: z.enum(["work", "education"]).optional().default("work"),
 });
 
 const experienceMapper = (
@@ -43,6 +44,7 @@ const experienceMapper = (
   tools: data.tools,
   skills: data.skills,
   highlight: data.highlight || false,
+  type: data.type,
   content,
 });
 

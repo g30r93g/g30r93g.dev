@@ -8,6 +8,7 @@ type Experience = {
   startDate: Date;
   endDate?: Date;
   highlight?: boolean;
+  type: "work" | "education";
   url: string;
   companyUrl: string;
   content: string;

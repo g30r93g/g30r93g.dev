@@ -1,23 +1,17 @@
 import type { Metadata } from "next";
-import { Rethink_Sans, Roboto_Mono } from "next/font/google";
 import "@/app/globals.css";
 import { ThemeProvider } from "next-themes";
-import Footer from "@/components/footer";
-// import { CircleAlert } from "lucide-react";
-
-const robotoMono = Roboto_Mono({
-  variable: "--font-roboto",
-  subsets: ["latin"],
-});
-
-const rethinkSans = Rethink_Sans({
-  variable: "--font-rethink-sans",
-  subsets: ["latin"],
-});
+import { fontVariables } from "@/lib/fonts";
 
 export const metadata: Metadata = {
-  title: "g30r93g",
-  description: "Personal website of George Nick Gorzynski",
+  metadataBase: new URL("https://g30r93g.dev"),
+  title: {
+    default: "George Nick Gorzynski | Full-Stack Software Engineer in London",
+    template: "%s | George Nick Gorzynski",
+  },
+  description:
+    "George Nick Gorzynski is a full-stack software engineer in London, building web, desktop and iOS products with TypeScript, React, Next.js, Swift and AWS.",
+  authors: [{ name: "George Nick Gorzynski", url: "https://g30r93g.dev" }],
 };
 
 export default function RootLayout({
@@ -25,24 +19,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const isDev = process.env.NODE_ENV === 'development';
-
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${robotoMono.variable} ${rethinkSans.variable} antialiased`}
-      >
+    <html lang="en-GB" className={fontVariables} suppressHydrationWarning>
+      <body className={"antialiased"}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {/*{ isDev && (*/}
-          {/*    <div className={"absolute w-full h-4 bg-orange-700 flex flex-row items-center justify-center z-[100] text-xs"}>*/}
-          {/*        <CircleAlert className={"h-3"} />*/}
-          {/*        <p>Development Build</p>*/}
-          {/*    </div>*/}
-          {/*)}*/}
-          <div className={"mx-4 md:mx-auto"}>
-            {children}
-            <Footer />
-          </div>
+          {children}
         </ThemeProvider>
       </body>
     </html>
