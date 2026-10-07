@@ -416,6 +416,7 @@
 [data-theme] .hero-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 [data-theme] .status { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
 [data-theme] .status b { color: var(--fg); font-weight: 500; }
+[data-theme] .status a:hover b { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 [data-theme] .dot { width: 8px; height: 8px; border-radius: 50%; background: #2ee66b; box-shadow: 0 0 0 4px rgba(46,230,107,.15); animation: pulse 2.4s infinite; }
 @keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(46,230,107,0); } }
 

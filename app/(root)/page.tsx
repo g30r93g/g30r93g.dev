@@ -138,9 +138,9 @@ export default function Home() {
             {current && (
               <div className={"status"}>
                 <span className={"dot"} />
-                <span>
+                <a href={current.companyUrl} target={"_blank"} rel={"noreferrer"}>
                   {current.role} at <b>{current.companyName}</b>
-                </span>
+                </a>
               </div>
             )}
           </div>
