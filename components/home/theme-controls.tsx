@@ -1,7 +1,7 @@
 "use client";
 
 import { useHome } from "@/components/home/theme-provider";
-import { THEMES, type ThemeId } from "@/components/home/themes";
+import type { ThemeId } from "@/components/home/themes";
 
 /** "Wear theme" on a project card. */
 export function WearTheme({ theme }: { theme: ThemeId }) {
@@ -14,8 +14,3 @@ export function WearTheme({ theme }: { theme: ThemeId }) {
   );
 }
 
-/** The theme's name, for the footer. */
-export function ThemeName() {
-  const { theme } = useHome();
-  return <>{theme === "g30r93g" ? "g30r93g" : `${THEMES[theme].name} theme`}</>;
-}

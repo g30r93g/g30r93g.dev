@@ -741,7 +741,7 @@
   [data-theme] .social a { padding: 8px 14px; }
 
   /* tools strip */
-  [data-theme] .c-tools { height: 64px; padding-left: 16px; gap: 12px; }
+  [data-theme] .c-tools { height: 64px; padding: 0 0 0 16px; gap: 12px; }  /* no vertical padding: the logos need the full height */
 
   /* experience: role on its own line, company and years underneath */
   [data-theme] .c-exp h2 { margin-bottom: 16px; }
