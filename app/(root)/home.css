@@ -232,7 +232,7 @@
   padding-top: 14px;
 }
 [data-theme] .pill, [data-theme] .tuck {
-  /* shared glass: the picker must read as the same material as the pill */
+  /* shared glass: the picker reads as the same material as the pill (the tuck below takes a darker tint) */
   background: color-mix(in oklab, var(--card-solid) 75%, transparent);
   border: 1px solid var(--border);
   backdrop-filter: blur(18px) saturate(1.4);
@@ -283,6 +283,7 @@
   /* anchored to the pill's right edge, so the pill stays centred; the left 34px hides under it */
   position: absolute; top: 0; left: calc(100% - 34px);
   padding-left: 34px;
+  background: color-mix(in oklab, color-mix(in oklab, var(--card-solid) 55%, #000) 85%, transparent);  /* darker than the pill, so the brush reads as a separate control */
   width: 80px;                                  /* 34px hidden + 44px paintbrush tab + border */
   border-radius: 0 22px 22px 0;
   /* cut away the part under the pill, following its rounded end (radius 22px, centred 12px in),
