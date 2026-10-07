@@ -278,6 +278,12 @@
 [data-theme] .exp.past:hover .role { color: var(--fg); }
 [data-theme] .exp .co { text-align: right; font-size: 14px; display: flex; align-items: center; gap: 10px; justify-content: flex-end; }
 [data-theme] .exp .co img { width: 26px; height: 26px; border-radius: 7px; object-fit: contain; padding: 3px; }
+/* the way to the full list: top right, level with "N years of" */
+[data-theme] .exp-more { position: absolute; top: 26px; right: 26px; display: inline-flex; align-items: center; gap: 6px; padding: 4px 0; transition: color .2s; }
+[data-theme] .exp-more:hover, [data-theme] .exp-more:focus-visible { color: var(--fg); }
+[data-theme] .exp-more:hover { text-decoration: underline; text-underline-offset: 3px; }
+[data-theme] .exp-more svg { display: block; width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .25s cubic-bezier(.3,1.4,.5,1); }
+[data-theme] .exp-more:hover svg { transform: translateX(3px); }
 [data-theme] .exp .yr { display: block; text-align: right; font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 4px; }
 
 /* ------------------------------------------------------------------
@@ -412,6 +418,7 @@
 
   /* experience: role on its own line, company and years underneath */
   [data-theme] .c-exp h2 { margin-bottom: 16px; }
+  [data-theme] .exp-more { top: 18px; right: 20px; }
   [data-theme] .exp-list { gap: 14px; }
   [data-theme] .exp { grid-template-columns: 1fr; gap: 4px; }
   [data-theme] .exp .role { font-size: 19px; }

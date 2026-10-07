@@ -143,6 +143,14 @@ export default function Home() {
         <Spotlight />
 
         <section className={"card c-exp"} data-cat={"work"}>
+          <Link className={"exp-more label"} href={"/experience"} transitionTypes={["nav-forward"]}>
+            All experience
+            {/* lucide: arrow-right */}
+            <svg viewBox={"0 0 24 24"} aria-hidden={"true"}>
+              <path d={"M5 12h14"} />
+              <path d={"m12 5 7 7-7 7"} />
+            </svg>
+          </Link>
           <div className={"label"}>{yearsOf} years of</div>
           <h2 className={"display"}>
             <Link href={"/experience"} transitionTypes={["nav-forward"]}>
