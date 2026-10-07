@@ -36,13 +36,17 @@ export default function NameAliasHoverTitle({
   const timeoutsRef = useRef<Array<ReturnType<typeof setTimeout>>>([]);
   const [visibleLimit, setVisibleLimit] = useState(maxLength);
 
-  useEffect(() => {
+  const [prevMaxLength, setPrevMaxLength] = useState(maxLength);
+  if (maxLength !== prevMaxLength) {
+    setPrevMaxLength(maxLength);
     setVisibleLimit(maxLength);
-  }, [maxLength]);
+  }
 
-  useEffect(() => {
+  const [prevNormalizedName, setPrevNormalizedName] = useState(normalizedName);
+  if (normalizedName !== prevNormalizedName) {
+    setPrevNormalizedName(normalizedName);
     setDisplayChars(normalizedName.split(""));
-  }, [normalizedName]);
+  }
 
   useEffect(() => {
     return () => {

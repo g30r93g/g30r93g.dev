@@ -9,6 +9,7 @@ import {
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
 } from "react";
 import { SocialIcon } from "react-social-icons/component";
 
@@ -17,7 +18,11 @@ export default function SocialNetworksPill({
   ...props
 }: ComponentPropsWithoutRef<"div">) {
   const { theme, systemTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   const containerRef = useRef<HTMLDivElement | null>(null);
   const iconRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [indicator, setIndicator] = useState({
@@ -28,10 +33,6 @@ export default function SocialNetworksPill({
     visible: false,
   });
   const [presetIndex, setPresetIndex] = useState<number | null>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const activeTheme = theme === "system" ? systemTheme : theme;
   const fgColor = mounted ? (activeTheme === "dark" ? "white" : "black") : "currentColor";
