@@ -636,9 +636,6 @@
 [data-theme] .c-proj .foot > * { white-space: nowrap; }
 [data-theme] .badge { font-family: var(--font-mono); font-size: 11px; padding: 4px 8px; border-radius: 6px; background: color-mix(in oklab, var(--fg) 7%, transparent); color: var(--muted); }
 [data-theme] .badge.live { color: #2ee66b; background: rgba(46,230,107,.1); }
-[data-theme] .try { font-size: 13px; color: var(--accent); display: inline-flex; gap: 6px; align-items: center; padding: 6px 10px; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent); transition: background .2s; }
-[data-theme] .try:hover { background: color-mix(in oklab, var(--accent) 12%, transparent); }
-[data-theme] .c-proj .try[aria-pressed="true"] { color: var(--fg); border-color: var(--border); }
 [data-theme] .c-proj .proj-swatch { position: absolute; right: 0; top: 0; width: 120px; height: 120px; opacity: .35; filter: blur(30px); pointer-events: none; }
 
 /* ------------------------------------------------------------------

@@ -5,7 +5,6 @@ import GithubCard from "@/components/home/github-card";
 import NavPill from "@/components/home/nav-pill";
 import SocialPill from "@/components/home/social-pill";
 import Spotlight from "@/components/home/spotlight";
-import { WearTheme } from "@/components/home/theme-controls";
 import { Bento, HomeProvider } from "@/components/home/theme-provider";
 import { THEME_BOOT_SCRIPT, THEME_IDS, THEMES } from "@/components/home/themes";
 import ToolStrip from "@/components/home/tool-strip";
@@ -235,7 +234,6 @@ export default function Home() {
                     ? "In Progress"
                     : [project.status, project.releaseDate?.getFullYear()].filter(Boolean).join(" · ")}
                 </span>
-                <WearTheme theme={theme} />
               </div>
             </section>
           );
