@@ -1,314 +1,4 @@
-/* Home page. Every rule is scoped to <html data-theme>, which only the home page sets. */
-/* ------------------------------------------------------------------
-   THEME TOKENS
-   Each theme swaps colour, type, shape, texture and the aura.
------------------------------------------------------------------- */
-:root {
-  --foil: url("/home/foil.jpg");
-}
-:root[data-theme] { color-scheme: dark !important; }  /* overrides next-themes' inline light scheme (scrollbars, form controls) */
-:root[data-theme="g30r93g"] {
-  --bg: #08090d;
-  --card: rgba(22, 24, 32, 0.62);
-  --card-solid: #12141b;
-  --border: rgba(255, 255, 255, 0.07);
-  --fg: #eef0f6;
-  --muted: #8a8fa3;
-  --dim: #4b5063;
-  --accent: #3cf0ff;
-  --accent-2: #ff3bd4;
-  --accent-3: #3046ff;
-  --radius: 22px;
-  --radius-sm: 12px;
-  --font-display: var(--font-rethink-sans), system-ui, sans-serif;
-  --font-body: var(--font-rethink-sans), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
-  --display-weight: 500;
-  --display-tracking: -0.02em;
-  --label-case: uppercase;
-  --aura: var(--foil) center / cover;
-  --aura-opacity: 0.55;
-  --edge-fill: var(--foil) center / 300% 300%;
-  --edge-opacity: 0.14;
-  --pattern: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1.2px) 0 0 / 22px 22px;
-  --heat-0: rgba(255,255,255,0.05);
-  --font-label: var(--font-jetbrains-mono), ui-monospace, monospace;
-  --label-tracking: .08em;
-  --label-color: #8a8fa3;
-  --card-shadow: none;
-  --aura-blur: 40px;
-}
-:root[data-theme="racedash"] {
-  /* from racedash/DESIGN.md: navy, ice blue, accent-alpha borders, no glows/angles/gradient text */
-  --bg: #0b1220;
-  --card: linear-gradient(to bottom, #14202e, #0e1824);
-  --card-solid: #14202e;
-  --border: #8cc8ff29;
-  --fg: #f5faff;
-  --muted: #e8f3ffc2;
-  --dim: #e8f3ff80;
-  --accent: #8cc8ff;
-  --accent-2: #b89cff;  /* session best */
-  --accent-3: #7fe3b0;  /* personal best */
-  --radius: 22px;
-  --radius-sm: 3px;
-  --font-display: var(--font-chakra-petch), system-ui, sans-serif;
-  --font-body: var(--font-sora), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --font-label: var(--font-space-grotesk), system-ui, sans-serif;
-  --label-tracking: .26em;
-  --label-color: #8cc8ff;
-  --display-weight: 500;
-  --display-tracking: -0.025em;
-  --label-case: uppercase;
-  --card-shadow: inset 0 1px 0 0 #e8f3ff08, 0 22px 56px 0 #00000059;
-  --aura: radial-gradient(ellipse 80% 60% at 15% 0%, #8cc8ff30, transparent 60%), radial-gradient(ellipse 60% 50% at 100% 100%, #8cc8ff20, transparent 70%);
-  --aura-opacity: 1;
-  --aura-blur: 0px;
-  --edge-fill: none;
-  --edge-opacity: 0;
-  --pattern: none;
-  --heat-0: #8cc8ff10;
-}
-:root[data-theme="idgame"] {
-  /* from id-game/app/globals.css: shadcn neutral dark; accent is the game's correct-answer green (Tailwind v4 green-500) */
-  --bg: #0a0a0a;
-  --card: #171717;
-  --card-solid: #171717;
-  --border: rgba(255, 255, 255, 0.10);
-  --fg: #fafafa;
-  --muted: #a1a1a1;
-  --dim: #5c5c5c;
-  --accent: oklch(0.723 0.219 149.579);
-  --accent-2: #fafafa;
-  --accent-3: oklch(0.723 0.219 149.579);
-  --radius: 14px;
-  --radius-sm: 8px;
-  --font-display: var(--font-geist-mono), ui-monospace, monospace;
-  --font-body: var(--font-geist), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --font-label: var(--font-geist), system-ui, sans-serif;
-  --label-tracking: .05em;
-  --label-color: #a1a1a1;
-  --display-weight: 600;
-  --display-tracking: -0.04em;
-  --label-case: uppercase;
-  --card-shadow: 0 1px 2px 0 rgba(0,0,0,.3);
-  --aura: radial-gradient(40% 60% at 50% 0%, oklch(0.723 0.219 149.579), transparent 70%);
-  --aura-opacity: 0.12;
-  --aura-blur: 60px;
-  --edge-fill: none;
-  --edge-opacity: 0;
-  --pattern: none;
-  --heat-0: rgba(255,255,255,0.06);
-}
-:root[data-theme="mixcut"] {
-  /* from mixcut-electron/src/renderer/global.css: near-black indigo, one periwinkle accent */
-  --bg: #0a0a0f;
-  --card: #12121a;
-  --card-solid: #12121a;
-  --border: #1e1e2a;
-  --fg: #eaeaef;
-  --muted: #9494a8;
-  --dim: #6e6e85;
-  --accent: #78a0ff;
-  --accent-2: #5070cc;
-  --accent-3: #ff6464;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --font-display: var(--font-inter), system-ui, sans-serif;
-  --font-body: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), Menlo, monospace;
-  --font-label: var(--font-jetbrains-mono), Menlo, monospace;
-  --label-tracking: .2em;
-  --label-color: #9494a8;
-  --display-weight: 600;
-  --display-tracking: -0.025em;
-  --label-case: uppercase;
-  --card-shadow: none;
-  --aura: radial-gradient(40% 60% at 50% 0%, #78a0ff, transparent 70%);
-  --aura-opacity: 0.10;
-  --aura-blur: 60px;
-  --edge-fill: none;
-  --edge-opacity: 0;
-  --pattern: none;
-  --heat-0: #1a1a24;
-}
-:root[data-theme="tfl"] {
-  /* from TfL-Planner SwiftUI (TfL Go style): Johnston (as Farringdon, an open revival), corporate palette, continuous corners */
-  --bg: #151f30;            /* map "Paper", dark */
-  --card: #1c283c;
-  --card-solid: #1c283c;
-  --border: rgba(255, 255, 255, 0.06);
-  --fg: #ffffff;
-  --muted: #a9b3c2;
-  --dim: #6b7688;
-  --accent: #ffcd00;        /* corporate yellow */
-  --accent-2: #0019a8;      /* corporate blue */
-  --accent-3: #e1251b;      /* corporate red */
-  --radius: 20px;
-  --radius-sm: 12px;
-  --font-display: var(--font-farringdon), var(--font-hanken-grotesk), system-ui, sans-serif;
-  --font-body: var(--font-farringdon), var(--font-hanken-grotesk), system-ui, sans-serif;
-  --font-mono: var(--font-farringdon), var(--font-hanken-grotesk), system-ui, sans-serif;
-  --font-label: var(--font-farringdon), var(--font-hanken-grotesk), system-ui, sans-serif;
-  --label-tracking: .01em;
-  --label-color: #a9b3c2;
-  --display-weight: 500;
-  --display-tracking: 0;
-  --label-case: none;
-  --card-shadow: 0 2px 8px rgba(0,0,0,.12);
-  --aura: radial-gradient(50% 60% at 50% 0%, #0019a8, transparent 70%);
-  --aura-opacity: 0.55;
-  --aura-blur: 50px;
-  --edge-fill: none;
-  --edge-opacity: 0;
-  --pattern: none;
-  --heat-0: rgba(255,255,255,0.05);
-}
-
-
-/* ------------------------------------------------------------------
-   BASE
------------------------------------------------------------------- */
-[data-theme] body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-body);
-  -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-[data-theme] body::before { /* texture */
-  content: ""; position: fixed; inset: 0; z-index: -2;
-  background: var(--pattern);
-  mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
-}
-[data-theme] a { color: inherit; text-decoration: none; }
-[data-theme] button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
-
-[data-theme] .aura {
-  position: fixed; left: 50%; top: -18vh; z-index: -1;
-  width: min(1400px, 140vw); height: 70vh;
-  transform: translateX(-50%);
-  background: var(--aura);
-  opacity: var(--aura-opacity);
-  filter: blur(var(--aura-blur, 60px)) saturate(1.2);
-  mask-image: radial-gradient(50% 55% at 50% 30%, #000 0%, rgba(0,0,0,0.6) 45%, transparent 75%);
-  pointer-events: none;
-  animation: aura-drift 18s ease-in-out infinite alternate;
-}
-@keyframes aura-drift {
-  from { transform: translateX(-52%) scale(1); }
-  to   { transform: translateX(-48%) scale(1.06); }
-}
-
-[data-theme] .label {
-  font-family: var(--font-label);
-  font-size: 11px;
-  letter-spacing: var(--label-tracking);
-  text-transform: var(--label-case);
-  color: var(--label-color);
-}
-[data-theme] .display {
-  font-family: var(--font-display);
-  font-weight: var(--display-weight);
-  letter-spacing: var(--display-tracking);
-}
-[data-theme] .foil-text {
-  background: var(--foil) 30% 50% / 400% 400%;
-  -webkit-background-clip: text; background-clip: text;
-  color: transparent;
-}
-/* only g30r93g uses gradient text; project themes use a solid accent */
-[data-theme]:not([data-theme="g30r93g"]) .foil-text { background: none; color: var(--accent); }
-
-/* ------------------------------------------------------------------
-   TOP CHROME: nav pill + tucked theme picker
------------------------------------------------------------------- */
-[data-theme] .chrome {
-  position: sticky; top: 14px; z-index: 50;
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  padding-top: 14px;
-}
-[data-theme] .pill, [data-theme] .tuck {
-  /* shared glass: the picker reads as the same material as the pill (the tuck below takes a darker tint) */
-  background: color-mix(in oklab, var(--card-solid) 75%, transparent);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4);
-  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.6);
-}
-[data-theme] .pill {
-  --chrome-h: 44px;  /* 34px buttons + 4px padding + 1px border, top and bottom */
-  position: relative; display: flex; padding: 4px;
-  border-radius: 999px;
-  overflow: hidden;  /* clips the pages while the width animates */
-  transition: width .42s cubic-bezier(.3,1.15,.4,1);
-}
-[data-theme] .pill .page { display: flex; gap: 2px; flex: none; }
-[data-theme] .pill .page > button { flex: none; }  /* never squeeze while the pill's width is animating */
-[data-theme] .pill button:focus { outline: none; }
-[data-theme] .pill button:focus-visible { outline: 2px solid color-mix(in oklab, var(--fg) 45%, transparent); outline-offset: -2px; }  /* inset: the pill clips anything outside */
-[data-theme] .tuck-trigger:focus { outline: none; }
-[data-theme] .tuck-trigger:focus-visible { outline: 2px solid color-mix(in oklab, var(--fg) 45%, transparent); outline-offset: -4px; border-radius: 999px; }
-[data-theme] .pill .page[hidden] { display: none; }
-/* items arrive with a short stagger when a page is swapped in */
-[data-theme] .pill .page.enter > button { animation: page-in .3s cubic-bezier(.3,1,.4,1) both; }
-[data-theme] #themePage.enter > button { animation-delay: calc(var(--i, 0) * 30ms); }  /* stagger only on the way in; the nav returns at once */
-@keyframes page-in { from { opacity: 0; transform: translateY(8px) scale(.96); filter: blur(3px); } }
-[data-theme] .pill .theme-btn { display: flex; align-items: center; gap: 8px; padding: 0 16px 0 8px; }
-[data-theme] .pill .theme-btn .ico { width: 22px; height: 22px; }
-[data-theme] .pill .indicator {
-  position: absolute; top: 4px; bottom: 4px; left: 0; width: 0;
-  border-radius: inherit;
-  background: color-mix(in oklab, var(--fg) 9%, transparent);
-  border: 1px solid color-mix(in oklab, var(--fg) 10%, transparent);
-  transition: transform 0.35s cubic-bezier(.3,1.3,.5,1), width 0.35s cubic-bezier(.3,1.3,.5,1);
-}
-[data-theme="tfl"] .pill .indicator { background: var(--accent); border: 0; }
-[data-theme] .pill button {
-  position: relative; z-index: 1;
-  height: 34px; padding: 0 22px; border-radius: 999px;
-  font-size: 14px; color: var(--muted);
-  transition: color .2s;
-}
-[data-theme] .pill button[aria-pressed="true"] { color: var(--fg); }
-[data-theme="tfl"] .pill button[aria-pressed="true"] { color: #000; font-weight: 500; }
-
-[data-theme] .chrome-row { position: relative; display: flex; align-items: flex-start; }
-[data-theme] #filter { z-index: 2; }
-[data-theme] .tuck {
-  position: relative; z-index: 1;
-  /* anchored to the pill's right edge, so the pill stays centred; the left 34px hides under it */
-  position: absolute; top: 0; left: calc(100% - 34px);
-  padding-left: 34px;
-  background: color-mix(in oklab, color-mix(in oklab, var(--card-solid) 55%, #000) 85%, transparent);  /* darker than the pill, so the brush reads as a separate control */
-  width: 80px;                                  /* 34px hidden + 44px paintbrush tab + border */
-  border-radius: 0 22px 22px 0;
-  /* cut away the part under the pill, following its rounded end (radius 22px, centred 12px in),
-     so the translucent pill never shows the tab's edge or a second layer of glass through it */
-  -webkit-mask: linear-gradient(90deg, transparent 12px, #000 12px), radial-gradient(circle 22px at 12px 50%, transparent 21.5px, #000 22px);
-  -webkit-mask-composite: source-in;
-  mask: linear-gradient(90deg, transparent 12px, #000 12px), radial-gradient(circle 22px at 12px 50%, transparent 21.5px, #000 22px);
-  mask-composite: intersect;
-  transition: width .32s cubic-bezier(.3,1,.4,1), border-radius .3s, transform .3s cubic-bezier(.3,1.2,.5,1);
-}
-[data-theme="tfl"] .tuck { corner-shape: superellipse(1.6); }
-[data-theme] .tuck-trigger { position: relative; display: grid; place-items: center; height: 42px; /* pill height minus the border */ width: 44px; padding: 0; color: var(--fg); }
-[data-theme] .glyph { grid-area: 1 / 1; width: 17px; height: 17px; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-  transition: transform .4s cubic-bezier(.3,1.4,.5,1), opacity .25s, stroke .2s; }
-[data-theme] .tuck-trigger:hover .glyph, [data-theme] .tuck.open .glyph { stroke: var(--fg); }
-/* paintbrush spins out as the x spins in */
-[data-theme] .glyph.x { opacity: 0; transform: rotate(-90deg) scale(.4); }
-[data-theme] .tuck.open .glyph.x { opacity: 1; transform: none; }
-[data-theme] .tuck.open .glyph.brush { opacity: 0; transform: rotate(90deg) scale(.4); }
-[data-theme] .ico { width: 22px; height: 22px; border-radius: 6px; flex: none; display: block; object-fit: cover; box-shadow: 0 0 0 1px rgba(255,255,255,.12); }
-[data-theme] .ico.foil { background: var(--foil) 40% 50% / 500%; display: grid; place-items: center; font: 600 12px var(--font-jetbrains-mono), monospace; color: #fff; text-shadow: 0 1px 4px rgba(0,0,60,.5); }
-@media (max-width: 640px) {
-  [data-theme] .chrome-row { transform: translateX(-23px); } /* centre pill + the tab's visible 46px */
-  [data-theme] .pill .theme-btn { padding: 0 9px; } [data-theme] .pill .theme-btn span:last-child { display: none; } /* icons only */
-}
+/* Home page. Every rule is scoped to <html data-theme>; the shared theme is in theme.css. */
 
 /* ------------------------------------------------------------------
    BENTO
@@ -322,39 +12,6 @@
   grid-auto-flow: dense;
   gap: 14px;
 }
-[data-theme] .card {
-  position: relative; overflow: hidden;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--card-shadow);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  padding: 26px;
-  transition: opacity .45s, filter .45s, transform .45s cubic-bezier(.3,1,.4,1), border-radius .3s;
-}
-/* foil / accent edge (static for now; a cursor-driven version caused lag) */
-[data-theme] .card::before {
-  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
-  background: var(--edge-fill);
-  background-position: 50% 50%;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor; mask-composite: exclude;
-  opacity: var(--edge-opacity);
-  transition: opacity .3s;
-  pointer-events: none;
-}
-[data-theme] .card:hover::before { opacity: calc(var(--edge-opacity) * 1.6); }
-/* TfL Planner uses SwiftUI .continuous corners */
-[data-theme="tfl"] .card, [data-theme="tfl"] .c-proj .ic { corner-shape: superellipse(1.6); }
-/* Mixcut's BorderBeam: a comet that travels round the card edge on hover */
-@property --beam { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
-[data-theme="mixcut"] .card::before {
-  background: conic-gradient(from var(--beam), transparent 0 78%, rgba(120,160,255,.0) 80%, rgba(120,160,255,.65) 96%, transparent 100%);
-  opacity: 0; animation: beam 4s linear infinite;
-}
-[data-theme="mixcut"] .card:hover::before { opacity: 1; }
-@keyframes beam { to { --beam: 360deg; } }
 
 /* the nav's filter: cards outside the chosen category fade back */
 [data-theme] .bento[data-filter="about"] .card:not([data-cat="about"]),
@@ -422,8 +79,6 @@
 [data-theme] .status { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
 [data-theme] .status b { color: var(--fg); font-weight: 500; }
 [data-theme] .status a:hover b { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-[data-theme] .dot { width: 8px; height: 8px; border-radius: 50%; background: #2ee66b; box-shadow: 0 0 0 4px rgba(46,230,107,.15); animation: pulse 2.4s infinite; }
-@keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(46,230,107,0); } }
 
 /* social pill (ported from the current site) */
 [data-theme] .social { position: relative; display: inline-flex; gap: 4px; padding: 3px; border-radius: 999px; border: 1px solid var(--border); background: color-mix(in oklab, var(--fg) 4%, transparent); }
@@ -467,8 +122,6 @@
 @keyframes tool-in { from { opacity: 0; transform: translateY(10px) scale(.6); } }
 [data-theme] .tool.leaving { position: absolute; top: 0; pointer-events: none; opacity: 0; transform: translateY(-8px) scale(.7); }
 @keyframes scroll { to { transform: translateX(-50%); } }
-[data-theme] .chip { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); font-size: 13px; color: var(--muted); font-family: var(--font-mono); }
-[data-theme="racedash"] .chip { border-radius: var(--radius-sm); }
 
 /* ------------------------------------------------------------------
    SPOTLIGHT (theme-specific demo)
@@ -639,8 +292,6 @@
 [data-theme] .c-proj .tags .chip { font-size: 11px; padding: 4px 9px; }
 [data-theme] .c-proj .foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 [data-theme] .c-proj .foot > * { white-space: nowrap; }
-[data-theme] .badge { font-family: var(--font-mono); font-size: 11px; padding: 4px 8px; border-radius: 6px; background: color-mix(in oklab, var(--fg) 7%, transparent); color: var(--muted); }
-[data-theme] .badge.live { color: #2ee66b; background: rgba(46,230,107,.1); }
 [data-theme] .c-proj .proj-swatch { position: absolute; right: 0; top: 0; width: 120px; height: 120px; opacity: .35; filter: blur(30px); pointer-events: none; }
 
 /* ------------------------------------------------------------------
@@ -674,13 +325,6 @@
 [data-theme] .heat-key .ramp { width: 96px; height: 8px; border-radius: 2px;
   background: linear-gradient(90deg, var(--heat-0), var(--heat-1), var(--heat-2), var(--heat-3), var(--heat-4)); }
 [data-theme] .heat-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 12px; }
-[data-theme] .seg { position: relative; display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px; border: 1px solid var(--border); background: color-mix(in oklab, var(--fg) 4%, transparent); }
-[data-theme] .seg button { position: relative; z-index: 1; padding: 4px 12px; border-radius: 999px; font-size: 12px; color: var(--muted); transition: color .2s; }
-[data-theme] .seg button[aria-pressed="true"] { color: var(--fg); }
-/* the same sliding pill as the GitHub | LinkedIn switcher */
-[data-theme] .seg .ind { position: absolute; top: 3px; left: 0; height: calc(100% - 6px); width: 0; border-radius: 999px;
-  background: color-mix(in oklab, var(--accent) 16%, transparent); border: 1px solid color-mix(in oklab, var(--accent) 45%, transparent);
-  transition: transform .22s ease-out, width .22s; }
 [data-theme] .split { display: flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
 [data-theme] .split .bar { width: 120px; height: 4px; border-radius: 99px; overflow: hidden; display: flex; background: var(--heat-0); }
 [data-theme] .split .bar i { display: block; height: 100%; transition: opacity .25s; }
@@ -730,17 +374,6 @@
 
 [data-theme] .home-foot { width: min(1200px, 100% - 32px); margin: 0 auto 40px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
 
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  [data-theme] .pill, [data-theme] .tuck { background: var(--card-solid) !important; }
-}
-@media (prefers-reduced-transparency: reduce) {
-  [data-theme] .pill, [data-theme] .tuck, [data-theme] .card { background: var(--card-solid) !important; backdrop-filter: none !important; }
-}
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: .45s; }
-/* the nav is left out of the theme crossfade, so its morph back is never held behind an old snapshot */
-[data-theme] .chrome { view-transition-name: chrome; }
-::view-transition-old(chrome) { display: none; }
-::view-transition-new(chrome) { animation: none; }
 /* likewise the tooling strip, so its logos can be seen moving between stacks */
 [data-theme] .c-tools { view-transition-name: tools; }
 ::view-transition-old(tools) { display: none; }
@@ -815,4 +448,3 @@
   [data-theme] .bento[data-filter="projects"] .card:not([data-cat="projects"]),
   [data-theme] .bento[data-filter="games"] .card:not([data-cat="games"]) { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { [data-theme] *, [data-theme] *::before, [data-theme] *::after { animation: none !important; transition: none !important; } }

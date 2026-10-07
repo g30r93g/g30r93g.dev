@@ -1,0 +1,24 @@
+/* The theme tokens share names with shadcn's (--card, --accent, --muted, --border), so
+   the blog's components would pick up the theme's values. Restore the dark ones here. */
+.legacy {
+  --background: oklch(0.13 0.028 261.692);
+  --foreground: oklch(0.985 0.002 247.839);
+  --card: oklch(0.13 0.028 261.692);
+  --card-foreground: oklch(0.985 0.002 247.839);
+  --primary: oklch(0.985 0.002 247.839);
+  --primary-foreground: oklch(0.21 0.034 264.665);
+  --secondary: oklch(0.278 0.033 256.848);
+  --secondary-foreground: oklch(0.985 0.002 247.839);
+  --muted: oklch(0.278 0.033 256.848);
+  --muted-foreground: oklch(0.707 0.022 261.325);
+  --accent: oklch(0.278 0.033 256.848);
+  --accent-foreground: oklch(0.985 0.002 247.839);
+  --border: oklch(0.278 0.033 256.848);
+  --input: oklch(0.278 0.033 256.848);
+  --ring: oklch(0.446 0.03 256.802);
+  --radius: 0.625rem;
+  color: var(--foreground);
+  /* the site's page width */
+  width: min(1200px, 100% - 32px);
+  margin-inline: auto;
+}

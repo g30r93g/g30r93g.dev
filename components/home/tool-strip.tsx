@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useHome } from "@/components/home/theme-provider";
+import { useSite } from "@/components/site/theme-provider";
 import { DEFAULT_THEME, type ThemeId } from "@/components/home/themes";
 import type { ToolStacks } from "@/lib/tools";
 
@@ -19,7 +19,7 @@ const countFor = (ids: string[]) => `${ids.length} tools`;
  * place while the others leave and arrive.
  */
 export default function ToolStrip({ data }: { data: ToolStacks }) {
-  const { theme } = useHome();
+  const { theme } = useSite();
   const root = useRef<HTMLDivElement>(null);
   const strip = useRef<ReturnType<typeof createStrip>>(null);
   // the first render's markup is never re-rendered: after hydration the DOM is the strip's

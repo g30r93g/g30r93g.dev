@@ -44,3 +44,9 @@ export function getToolStacks(): ToolStacks {
   );
   return { tools, stacks };
 }
+
+/** A technology's logo in public/tools, or undefined when content/tools.json has none. */
+export function toolIcon(name: string): string | undefined {
+  const id = lookup.get(name.toLowerCase());
+  return id && `/tools/${id}.svg`;
+}

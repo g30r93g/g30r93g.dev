@@ -2,12 +2,12 @@
 
 import { useEffect, useRef } from "react";
 import { DEMOS } from "@/components/home/spotlight-demos";
-import { useHome } from "@/components/home/theme-provider";
+import { useSite } from "@/components/site/theme-provider";
 import { THEMES } from "@/components/home/themes";
 
 /** A live piece of the active theme's project (decorative, so it renders client-side). */
 export default function Spotlight() {
-  const { theme } = useHome();
+  const { theme } = useSite();
   const stage = useRef<HTMLDivElement>(null);
 
   useEffect(() => DEMOS[theme](stage.current!), [theme]);
