@@ -33,7 +33,7 @@ export default function ToolStrip({ data }: { data: ToolStacks }) {
   useEffect(() => strip.current?.show(theme), [theme]);
 
   return (
-    <div className={"card c-tools"} data-cat={"work"} ref={root}>
+    <div className={"card c-tools"} data-cat={"about"} ref={root}>
       <div className={"tools-label"}>
         <span className={"label"} data-eyebrow={""}>
           {eyebrowFor(DEFAULT_THEME)}

@@ -358,7 +358,8 @@
 /* the nav's filter: cards outside the chosen category fade back */
 [data-theme] .bento[data-filter="about"] .card:not([data-cat="about"]),
 [data-theme] .bento[data-filter="work"] .card:not([data-cat="work"]),
-[data-theme] .bento[data-filter="projects"] .card:not([data-cat="projects"]) { opacity: .14; filter: blur(2px) saturate(0); transform: scale(.985); }
+[data-theme] .bento[data-filter="projects"] .card:not([data-cat="projects"]),
+[data-theme] .bento[data-filter="games"] .card:not([data-cat="games"]) { opacity: .14; filter: blur(2px) saturate(0); transform: scale(.985); }
 
 /* placements */
 [data-theme] .c-hero { grid-column: span 7; grid-row: span 5; }
@@ -381,6 +382,9 @@
   [data-theme] .bento > .card { grid-column: 1 / -1 !important; grid-row: auto !important; }
   [data-theme] .c-spot { height: 320px; } [data-theme] .c-tools { height: 74px; }
   [data-theme] .pill button { padding: 0 11px; }
+}
+@media (max-width: 360px) {
+  [data-theme] .pill button { padding: 0 7px; font-size: 13px; } /* five tabs and the brush on the smallest phones */
 }
 
 /* ------------------------------------------------------------------
@@ -807,6 +811,7 @@
   /* filter: in a single column, faded cards only push the chosen ones down, so hide them */
   [data-theme] .bento[data-filter="about"] .card:not([data-cat="about"]),
   [data-theme] .bento[data-filter="work"] .card:not([data-cat="work"]),
-  [data-theme] .bento[data-filter="projects"] .card:not([data-cat="projects"]) { display: none; }
+  [data-theme] .bento[data-filter="projects"] .card:not([data-cat="projects"]),
+  [data-theme] .bento[data-filter="games"] .card:not([data-cat="games"]) { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { [data-theme] *, [data-theme] *::before, [data-theme] *::after { animation: none !important; transition: none !important; } }
