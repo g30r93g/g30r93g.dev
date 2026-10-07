@@ -10,6 +10,7 @@ import { Bento, HomeProvider } from "@/components/home/theme-provider";
 import { THEME_BOOT_SCRIPT, THEME_IDS, THEMES } from "@/components/home/themes";
 import ToolStrip from "@/components/home/tool-strip";
 import { getContributions } from "@/lib/contributions";
+import { londonDay } from "@/lib/daily";
 import { getExperience } from "@/lib/experience";
 import { getSingleProject } from "@/lib/projects";
 import { getToolStacks } from "@/lib/tools";
@@ -172,7 +173,7 @@ export default function Home() {
           </ol>
         </section>
 
-        <ShipIt />
+        <ShipIt day={londonDay()} />
 
         {projects.map(({ theme, project }) => {
           const link = project.hostedUrl ?? project.repoUrl;

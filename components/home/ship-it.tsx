@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type MouseEvent } from "react";
+import { daysBetween, londonDay } from "@/lib/daily";
+import { useMemo, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type MouseEvent } from "react";
 
 /*
- * "Ship it": an axonometric pipe puzzle. Rotate the pipes until a commit can
- * flow from `push` (the back corner) to `prod` (the front corner).
+ * "Ship it": a daily axonometric pipe puzzle. Rotate the pipes until a commit
+ * can flow from `push` (the back corner) to `prod` (the front corner). Each
+ * day's board is seeded by the date in London, so everyone gets the same one.
  */
 
 const N = 5; // tiles per side
@@ -17,7 +19,7 @@ const CX = Math.cos(Math.PI / 6);
 const SY = 0.5;
 const SRC = 0;
 const SINK = N * N - 1;
-const SEED = 20261007; // the first puzzle is fixed, so the server and the browser render the same board
+const FIRST_DAY = "2026-10-07"; // puzzle #1
 // N, E, S, W: bit d of a mask is a pipe opening on that side
 const STEP = [
   [0, -1],
@@ -29,6 +31,7 @@ const DECOYS = [5, 5, 3, 3, 3, 7]; // straights, elbows and the odd tee
 
 type Tile = { mask: number; r: number };
 type Game = { tiles: Tile[]; moves: number };
+type Puzzle = Game & { route: number[] };
 
 const at = (u: number, v: number) => v * N + u;
 const inside = (u: number, v: number) => u >= 0 && v >= 0 && u < N && v < N;
@@ -68,7 +71,7 @@ function flow(tiles: Tile[]) {
 }
 
 /** A winding route from push to prod among decoy pipes, every pipe turned at random. */
-function generate(rand: () => number): Game {
+function generate(rand: () => number): Puzzle {
   const shuffled = (xs: number[]) => {
     for (let i = xs.length - 1; i > 0; i--) {
       const j = Math.floor(rand() * (i + 1));
@@ -107,38 +110,49 @@ function generate(rand: () => number): Game {
   do {
     tiles.forEach((t, i) => (t.r = i === SRC || i === SINK ? 0 : Math.floor(rand() * 4)));
   } while (flow(tiles).has(SINK));
-  return { tiles, moves: 0 };
+  return { tiles, route, moves: 0 };
 }
 
-/* Best score, kept in this browser only */
-const STATS_KEY = "g-ship-it";
+const seedOf = (day: string) => Number(day.replaceAll("-", ""));
+const dayBefore = (day: string) => new Date(Date.parse(`${day}T00:00:00Z`) - 86_400_000).toISOString().slice(0, 10);
+
+/* Today's result and the streak, kept in this browser only */
+type Record = { day?: string; moves?: number; streak?: number };
+const RECORD_KEY = "g-ship-it";
 const listeners = new Set<() => void>();
-const stats = {
+const record = {
   subscribe(fn: () => void) {
     listeners.add(fn);
     return () => void listeners.delete(fn);
   },
   read() {
     try {
-      return localStorage.getItem(STATS_KEY) ?? "";
+      return localStorage.getItem(RECORD_KEY) ?? "";
     } catch {
       return "";
     }
   },
-  parse(raw: string): { best?: number } {
+  parse(raw: string): Record {
     try {
       return JSON.parse(raw) ?? {};
     } catch {
       return {};
     }
   },
-  record(moves: number) {
-    const { best } = stats.parse(stats.read());
+  solve(day: string, moves: number) {
+    const last = record.parse(record.read());
+    const streak = last.day === dayBefore(day) ? (last.streak ?? 0) + 1 : 1;
     try {
-      localStorage.setItem(STATS_KEY, JSON.stringify({ best: Math.min(best ?? moves, moves) }));
+      localStorage.setItem(RECORD_KEY, JSON.stringify({ day, moves, streak }));
     } catch {}
     listeners.forEach((fn) => fn());
   },
+};
+
+// The day rolls over while a tab sits in the background: check again when it's back
+const subscribeDay = (fn: () => void) => {
+  document.addEventListener("visibilitychange", fn);
+  return () => document.removeEventListener("visibilitychange", fn);
 };
 
 // board units to the screen: u runs down-right, v down-left, z up
@@ -148,10 +162,25 @@ const point = (u: number, v: number, z = 0) =>
   [W / 2 + (u - v) * S * CX, PAD + TOWER + (u + v) * S * SY - z] as const;
 const poly = (pts: (readonly [number, number])[]) => pts.map((p) => p.join(",")).join(" ");
 
-export default function ShipIt() {
-  const [game, setGame] = useState(() => generate(mulberry32(SEED)));
-  const raw = useSyncExternalStore(stats.subscribe, stats.read, () => "");
-  const { best } = stats.parse(raw);
+/**
+ * `day` is the London date the page was rendered for (a cron re-renders it just
+ * after midnight). If the browser's London date has moved on since, it wins.
+ */
+export default function ShipIt({ day }: { day: string }) {
+  const today = useSyncExternalStore(subscribeDay, londonDay, () => day);
+  return <Daily key={today} day={today} />;
+}
+
+function Daily({ day }: { day: string }) {
+  const puzzle = useMemo(() => generate(mulberry32(seedOf(day))), [day]);
+  const [play, setPlay] = useState<Game>(puzzle);
+  const saved = record.parse(useSyncExternalStore(record.subscribe, record.read, () => ""));
+  const streak = saved.day === day || saved.day === dayBefore(day) ? (saved.streak ?? 0) : 0;
+  // already solved today (perhaps in another visit): show the solution
+  const game =
+    saved.day === day && !flow(play.tiles).has(SINK)
+      ? { tiles: puzzle.tiles.map((t, i) => (puzzle.route.includes(i) ? { ...t, r: 0 } : t)), moves: saved.moves ?? 0 }
+      : play;
   const dist = flow(game.tiles);
   const won = dist.has(SINK);
 
@@ -159,8 +188,8 @@ export default function ShipIt() {
     if (won || i === SRC || i === SINK) return;
     const tiles = game.tiles.map((t, j) => (j === i ? { ...t, r: t.r + by } : t));
     const moves = game.moves + 1;
-    if (flow(tiles).has(SINK)) stats.record(moves);
-    setGame({ tiles, moves });
+    if (flow(tiles).has(SINK)) record.solve(day, moves);
+    setPlay({ tiles, moves });
   };
   const onKey = (i: number) => (e: KeyboardEvent) => {
     if (e.key !== "Enter" && e.key !== " ") return;
@@ -179,14 +208,14 @@ export default function ShipIt() {
     <section className={"card c-game"} data-cat={"about"} aria-labelledby={"game-heading"}>
       <div className={"game-head"}>
         <div>
-          <div className={"label"}>Side quest</div>
+          <div className={"label"}>Daily · #{daysBetween(FIRST_DAY, day) + 1}</div>
           <h2 id={"game-heading"} className={"display"}>
             Ship it
           </h2>
         </div>
         <div className={"label game-stats"} aria-live={"polite"}>
           {won ? `Shipped in ${game.moves}` : `${game.moves} ${game.moves === 1 ? "move" : "moves"}`}
-          {best !== undefined && ` · best ${best}`}
+          {streak > 1 && ` · ${streak}-day streak`}
         </div>
       </div>
 
@@ -254,11 +283,13 @@ export default function ShipIt() {
 
       <div className={"game-foot"}>
         <p>
-          {won ? "Deployed. Another?" : "Turn the pipes to get a commit from push to prod."}
+          {won ? "Shipped. A new board drops at midnight UK time." : "Turn the pipes to get a commit from push to prod."}
         </p>
-        <button className={"game-btn"} onClick={() => setGame(generate(mulberry32((Math.random() * 2 ** 32) >>> 0)))}>
-          {won ? "Next deploy" : "New board"}
-        </button>
+        {!won && game.moves > 0 && (
+          <button className={"game-btn"} onClick={() => setPlay(puzzle)}>
+            Start over
+          </button>
+        )}
       </div>
     </section>
   );
