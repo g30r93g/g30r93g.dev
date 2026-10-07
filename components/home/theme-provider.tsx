@@ -113,7 +113,7 @@ export function HomeProvider({ children }: { children: ReactNode }) {
   );
 }
 
-/** The bento grid; the nav's filter fades the cards outside the chosen section. */
+/** The bento grid; the nav's filter fades the cards outside the chosen section (on phones, it hides them). */
 export function Bento({ children }: { children: ReactNode }) {
   const { filter } = useHome();
   return (
