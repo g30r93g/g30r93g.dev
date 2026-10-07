@@ -3,12 +3,12 @@ import Link from "next/link";
 import "./home.css";
 import GithubCard from "@/components/home/github-card";
 import NavPill from "@/components/home/nav-pill";
+import ShipIt from "@/components/home/ship-it";
 import SocialPill from "@/components/home/social-pill";
 import Spotlight from "@/components/home/spotlight";
 import { Bento, HomeProvider } from "@/components/home/theme-provider";
 import { THEME_BOOT_SCRIPT, THEME_IDS, THEMES } from "@/components/home/themes";
 import ToolStrip from "@/components/home/tool-strip";
-import { getBlogPosts } from "@/lib/blog";
 import { getContributions } from "@/lib/contributions";
 import { getExperience } from "@/lib/experience";
 import { getSingleProject } from "@/lib/projects";
@@ -67,7 +67,6 @@ export default function Home() {
     const project = slug ? getSingleProject(slug) : undefined;
     return project ? [{ theme, project }] : [];
   });
-  const post = getBlogPosts()[0];
   const tools = getToolStacks();
   const { profile, days } = getContributions();
 
@@ -173,30 +172,7 @@ export default function Home() {
           </ol>
         </section>
 
-        <section className={"card c-now"} data-cat={"projects"}>
-          <div className={"label"}>Currently building</div>
-          <div className={"arrow-row"}>
-            <div className={"big display"}>RaceDash — cloud rendering pipeline</div>
-            <span className={"badge live"}>IN PROGRESS</span>
-          </div>
-        </section>
-
-        {post ? (
-          <Link className={"card c-blog"} data-cat={"about"} href={post.url}>
-            <div className={"label"}>Latest writing{post.draft ? " · Draft" : ""}</div>
-            <div>
-              <div className={"big display"}>{post.title}</div>
-              {post.description && <p>{post.description}</p>}
-            </div>
-          </Link>
-        ) : (
-          <section className={"card c-blog"} data-cat={"about"}>
-            <div className={"label"}>Writing</div>
-            <div>
-              <div className={"big display"}>First post coming soon</div>
-            </div>
-          </section>
-        )}
+        <ShipIt />
 
         {projects.map(({ theme, project }) => {
           const link = project.hostedUrl ?? project.repoUrl;
