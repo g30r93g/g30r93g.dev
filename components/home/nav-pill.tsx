@@ -10,6 +10,7 @@ const FILTERS: { id: Filter; label: string }[] = [
   { id: "about", label: "About" },
   { id: "work", label: "Work" },
   { id: "projects", label: "Projects" },
+  { id: "games", label: "Games" },
 ];
 
 /**

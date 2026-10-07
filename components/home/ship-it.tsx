@@ -205,7 +205,7 @@ function Daily({ day }: { day: string }) {
   const order = game.tiles.map((_, i) => i).sort((a, b) => (a % N) + Math.floor(a / N) - ((b % N) + Math.floor(b / N)));
 
   return (
-    <section className={"card c-game"} data-cat={"about"} aria-labelledby={"game-heading"}>
+    <section className={"card c-game"} data-cat={"games"} aria-labelledby={"game-heading"}>
       <div className={"game-head"}>
         <div>
           <div className={"label"}>Daily · #{daysBetween(FIRST_DAY, day) + 1}</div>
