@@ -110,7 +110,7 @@ function generate(rand: () => number): Game {
   return { tiles, moves: 0 };
 }
 
-/* Best score and number of deploys, kept in this browser only */
+/* Best score, kept in this browser only */
 const STATS_KEY = "g-ship-it";
 const listeners = new Set<() => void>();
 const stats = {
@@ -125,17 +125,17 @@ const stats = {
       return "";
     }
   },
-  parse(raw: string): { best?: number; shipped: number } {
+  parse(raw: string): { best?: number } {
     try {
-      return { shipped: 0, ...JSON.parse(raw) };
+      return JSON.parse(raw);
     } catch {
-      return { shipped: 0 };
+      return {};
     }
   },
   record(moves: number) {
-    const { best, shipped } = stats.parse(stats.read());
+    const { best } = stats.parse(stats.read());
     try {
-      localStorage.setItem(STATS_KEY, JSON.stringify({ best: Math.min(best ?? moves, moves), shipped: shipped + 1 }));
+      localStorage.setItem(STATS_KEY, JSON.stringify({ best: Math.min(best ?? moves, moves) }));
     } catch {}
     listeners.forEach((fn) => fn());
   },
@@ -151,7 +151,7 @@ const poly = (pts: (readonly [number, number])[]) => pts.map((p) => p.join(","))
 export default function ShipIt() {
   const [game, setGame] = useState(() => generate(mulberry32(SEED)));
   const raw = useSyncExternalStore(stats.subscribe, stats.read, () => "");
-  const { best, shipped } = stats.parse(raw);
+  const { best } = stats.parse(raw);
   const dist = flow(game.tiles);
   const won = dist.has(SINK);
 
@@ -254,11 +254,7 @@ export default function ShipIt() {
 
       <div className={"game-foot"}>
         <p>
-          {won
-            ? shipped > 1
-              ? `Deployed. That's ${shipped} shipped from this browser.`
-              : "Deployed. Another?"
-            : "Turn the pipes to get a commit from push to prod."}
+          {won ? "Deployed. Another?" : "Turn the pipes to get a commit from push to prod."}
         </p>
         <button className={"game-btn"} onClick={() => setGame(generate(mulberry32((Math.random() * 2 ** 32) >>> 0)))}>
           {won ? "Next deploy" : "New board"}
