@@ -127,7 +127,7 @@ const stats = {
   },
   parse(raw: string): { best?: number } {
     try {
-      return JSON.parse(raw);
+      return JSON.parse(raw) ?? {};
     } catch {
       return {};
     }
