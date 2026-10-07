@@ -803,5 +803,10 @@
   [data-theme] .heat { grid-auto-columns: 11px; width: max-content; }
 
   [data-theme] .home-foot { width: calc(100% - 32px); }
+
+  /* filter: in a single column, faded cards only push the chosen ones down, so hide them */
+  [data-theme] .bento[data-filter="about"] .card:not([data-cat="about"]),
+  [data-theme] .bento[data-filter="work"] .card:not([data-cat="work"]),
+  [data-theme] .bento[data-filter="projects"] .card:not([data-cat="projects"]) { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { [data-theme] *, [data-theme] *::before, [data-theme] *::after { animation: none !important; transition: none !important; } }
