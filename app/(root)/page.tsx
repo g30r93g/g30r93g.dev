@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     lastName: "Gorzynski",
     username: "g30r93g",
   },
-  twitter: { card: "summary", title: `${NAME} | ${JOB_TITLE}`, description: DESCRIPTION },
+  twitter: { card: "summary_large_image", title: `${NAME} | ${JOB_TITLE}`, description: DESCRIPTION },
 };
 
 // the page is static: "now" is when it was built
