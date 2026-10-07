@@ -145,7 +145,8 @@ export default function Image() {
             display: "flex",
             flexDirection: "column",
             fontSize: 92,
-            lineHeight: 1.0,
+            // 1.0, as on the site, clips the descenders of g and p
+            lineHeight: 1.15,
             letterSpacing: "-0.02em",
           }}
         >
@@ -154,6 +155,9 @@ export default function Image() {
             for&nbsp;
             <span
               style={{
+                // the foil fills only the span's box, so extend it below the baseline
+                paddingBottom: "0.1em",
+                marginBottom: "-0.1em",
                 backgroundImage: FOIL,
                 backgroundSize: "400% 400%",
                 backgroundPosition: "30% 50%",
