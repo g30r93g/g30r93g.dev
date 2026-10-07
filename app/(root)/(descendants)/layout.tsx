@@ -1,17 +1,16 @@
-import "@/app/globals.css";
+import Footer from "@/components/footer";
 import Header from "@/components/header";
 
-export default function RootLayout({
+export default function DescendantsLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const isDev = process.env.NODE_ENV === 'development';
-
   return (
-    <>
+    <div className={"mx-4 md:mx-auto"}>
       <Header />
       {children}
-    </>
+      <Footer />
+    </div>
   );
 }
