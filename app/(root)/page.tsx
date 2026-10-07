@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./home.css";
+import Bento from "@/components/home/bento";
 import GithubCard from "@/components/home/github-card";
-import NavPill from "@/components/home/nav-pill";
 import ShipIt from "@/components/home/ship-it";
 import SocialPill from "@/components/home/social-pill";
 import Spotlight from "@/components/home/spotlight";
-import { Bento, HomeProvider } from "@/components/home/theme-provider";
-import { THEME_BOOT_SCRIPT, THEME_IDS, THEMES } from "@/components/home/themes";
+import { THEME_IDS, THEMES } from "@/components/home/themes";
 import ToolStrip from "@/components/home/tool-strip";
+import PageTransition, { Morph } from "@/components/site/page-transition";
 import { getContributions } from "@/lib/contributions";
 import { londonDay } from "@/lib/daily";
-import { getExperience } from "@/lib/experience";
+import { getExperience, yearsOfExperience } from "@/lib/experience";
 import { getSingleProject } from "@/lib/projects";
 import { getToolStacks } from "@/lib/tools";
 import type Experience from "@/types/experience";
@@ -59,9 +59,7 @@ export default function Home() {
   const current = work.find((e) => !e.endDate);
   const degree = experience.find((e) => e.type === "education");
   const shown = work.filter((e) => e.highlight);
-  const yearsOf = Math.floor(
-    (BUILT.getTime() - Math.min(...work.map((e) => e.startDate.getTime()))) / (365.25 * 24 * 3600 * 1000),
-  );
+  const yearsOf = yearsOfExperience(experience, BUILT);
 
   const projects = THEME_IDS.flatMap((theme) => {
     const slug = THEMES[theme].project;
@@ -101,16 +99,11 @@ export default function Home() {
   };
 
   return (
-    <HomeProvider>
-      {/* wear the saved theme before first paint */}
-      <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
+    <PageTransition>
       <script
         type={"application/ld+json"}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
-      <div className={"aura"} aria-hidden={"true"} />
-
-      <NavPill />
 
       <Bento>
         <section className={"card c-hero"} data-cat={"about"}>
@@ -150,19 +143,37 @@ export default function Home() {
         <Spotlight />
 
         <section className={"card c-exp"} data-cat={"work"}>
+          <Link className={"exp-more label"} href={"/experience"} transitionTypes={["nav-forward"]}>
+            All experience
+            {/* lucide: arrow-right */}
+            <svg viewBox={"0 0 24 24"} aria-hidden={"true"}>
+              <path d={"M5 12h14"} />
+              <path d={"m12 5 7 7-7 7"} />
+            </svg>
+          </Link>
           <div className={"label"}>{yearsOf} years of</div>
-          <h2 className={"display"}>Experience</h2>
+          <h2 className={"display"}>
+            <Link href={"/experience"} transitionTypes={["nav-forward"]}>
+              Experience
+            </Link>
+          </h2>
           <ol className={"exp-list"}>
             {shown.map((e) => (
               <li key={e.slug}>
-                <Link href={e.url} className={`exp${e === current ? "" : " past"}`}>
-                  <h3 className={"role display"}>{e.role}</h3>
+                <Link href={e.url} className={`exp${e === current ? "" : " past"}`} transitionTypes={["nav-forward"]}>
+                  <h3 className={"role display"}>
+                    <Morph name={`role-title-${e.slug}`}>
+                      <span className={"morph-text"}>{e.role}</span>
+                    </Morph>
+                  </h3>
                   <div>
                     <div className={"co"}>
                       <span>{e.companyName}</span>
                       {e.logo && (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={e.logo} style={{ background: e.logoBackground }} alt={""} />
+                        <Morph name={`role-logo-${e.slug}`}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={e.logo} style={{ background: e.logoBackground }} alt={""} />
+                        </Morph>
                       )}
                     </div>
                     <span className={"yr"}>{years(e)}</span>
@@ -224,6 +235,6 @@ export default function Home() {
           © {BUILT.getFullYear()} {NAME}
         </span>
       </footer>
-    </HomeProvider>
+    </PageTransition>
   );
 }

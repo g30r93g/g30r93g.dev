@@ -15,18 +15,18 @@ import { DEFAULT_THEME, THEME_IDS, THEME_STORAGE_KEY, isThemeId, type ThemeId } 
 
 export type Filter = "all" | "about" | "work" | "projects" | "games";
 
-type HomeContext = {
+type SiteContext = {
   theme: ThemeId;
   setTheme: (theme: ThemeId) => void;
   filter: Filter;
   setFilter: (filter: Filter) => void;
 };
 
-const Context = createContext<HomeContext | null>(null);
+const Context = createContext<SiteContext | null>(null);
 
-export function useHome() {
+export function useSite() {
   const value = useContext(Context);
-  if (!value) throw new Error("useHome must be used inside <HomeProvider>");
+  if (!value) throw new Error("useSite must be used inside <SiteProvider>");
   return value;
 }
 
@@ -64,11 +64,11 @@ const themeStore = {
 };
 
 /**
- * Holds the home page's theme and section filter. Every home page style is scoped
- * to <html data-theme>, which is removed when leaving the page so the rest of the
- * site keeps its own look.
+ * Holds the theme and the home page's section filter for every page under app/(root).
+ * Every themed style is scoped to <html data-theme>. Its layout persists across
+ * navigations, so the theme (and the nav) carries from page to page.
  */
-export function HomeProvider({ children }: { children: ReactNode }) {
+export function SiteProvider({ children }: { children: ReactNode }) {
   // The server renders the default theme; hydration then adopts the one on <html>.
   const theme = useSyncExternalStore(themeStore.subscribe, themeStore.get, () => DEFAULT_THEME);
   const [filter, setFilter] = useState<Filter>("all");
@@ -110,15 +110,5 @@ export function HomeProvider({ children }: { children: ReactNode }) {
     <Context.Provider value={value}>
       {children}
     </Context.Provider>
-  );
-}
-
-/** The bento grid; the nav's filter fades the cards outside the chosen section (on phones, it hides them). */
-export function Bento({ children }: { children: ReactNode }) {
-  const { filter } = useHome();
-  return (
-    <main className={"bento"} data-filter={filter}>
-      {children}
-    </main>
   );
 }
