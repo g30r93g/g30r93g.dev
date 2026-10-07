@@ -11,7 +11,7 @@ import ToolStrip from "@/components/home/tool-strip";
 import PageTransition, { Morph } from "@/components/site/page-transition";
 import { getContributions } from "@/lib/contributions";
 import { londonDay } from "@/lib/daily";
-import { getExperience, yearsOfWork } from "@/lib/experience";
+import { getExperience, yearsOfExperience } from "@/lib/experience";
 import { getSingleProject } from "@/lib/projects";
 import { getToolStacks } from "@/lib/tools";
 import type Experience from "@/types/experience";
@@ -59,7 +59,7 @@ export default function Home() {
   const current = work.find((e) => !e.endDate);
   const degree = experience.find((e) => e.type === "education");
   const shown = work.filter((e) => e.highlight);
-  const yearsOf = yearsOfWork(experience, BUILT);
+  const yearsOf = yearsOfExperience(experience, BUILT);
 
   const projects = THEME_IDS.flatMap((theme) => {
     const slug = THEMES[theme].project;

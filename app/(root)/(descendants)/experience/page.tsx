@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "@/components/experience/experience.css";
 import RoleBrowser, { type RoleCard } from "@/components/experience/role-browser";
 import PageTransition from "@/components/site/page-transition";
-import { getExperience, period, tenure, timelineOf, yearsOfWork } from "@/lib/experience";
+import { getExperience, period, tenure, timelineOf, yearsOfExperience } from "@/lib/experience";
 
 // the page is static: "now" is when it was built
 const BUILT = new Date();
@@ -36,7 +36,7 @@ export default function ExperiencePage() {
       <main className={"page-grid xp"}>
         <section className={"card xp-intro span-12"}>
           <div>
-            <div className={"label"}>{yearsOfWork(experience, BUILT)} years of</div>
+            <div className={"label"}>{yearsOfExperience(experience, BUILT)} years of</div>
             <h1 className={"display"}>Experience</h1>
           </div>
           <div className={"row"}>

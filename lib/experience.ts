@@ -90,9 +90,9 @@ export function tenure(e: Experience, now: Date) {
     .join(" ");
 }
 
-/** Whole years since the first work role began (the home page's "N years of"). */
-export function yearsOfWork(experience: Experience[], now: Date) {
-  const starts = experience.filter((e) => e.type === "work").map((e) => e.startDate.getTime());
+/** Whole years since the first role began, the degree included ("N years of" experience). */
+export function yearsOfExperience(experience: Experience[], now: Date) {
+  const starts = experience.map((e) => e.startDate.getTime());
   return Math.floor((now.getTime() - Math.min(...starts)) / (365.25 * 24 * 3600 * 1000));
 }
 
