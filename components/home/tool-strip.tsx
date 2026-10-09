@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSite } from "@/components/site/theme-provider";
 import { DEFAULT_THEME, type ThemeId } from "@/components/home/themes";
-import type { ToolStacks } from "@/lib/tools";
+import type { Tool, ToolStacks } from "@/lib/tools";
 
 const SPEED = 28; // px per second
 const HOLD = 2000; // ms to hold on load and after a theme change
@@ -11,6 +11,8 @@ const EDGE = 14; // the left fade of the strip's mask
 
 const eyebrowFor = (theme: ThemeId) => (theme === "g30r93g" ? "Tools I reach for" : "Built with");
 const countFor = (ids: string[]) => `${ids.length} tools`;
+// sized per logo so each carries the same visual weight (scripts/size-tool-logos.mjs)
+const imgStyle = ({ size }: Tool) => ({ width: `${size.w}px`, height: `${size.h}px`, translate: `${size.x}px ${size.y}px` });
 
 /**
  * The logos behind the active theme. Server-rendered for the default theme (so the
@@ -47,7 +49,7 @@ export default function ToolStrip({ data }: { data: ToolStacks }) {
           {initial.map((id) => (
             <li key={id} className={"tool"} data-id={id} title={data.tools[id].name}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={data.tools[id].icon} alt={data.tools[id].name} />
+              <img src={data.tools[id].icon} alt={data.tools[id].name} style={imgStyle(data.tools[id])} />
             </li>
           ))}
         </ul>
@@ -82,6 +84,7 @@ function createStrip(card: HTMLElement, data: ToolStacks) {
     const img = document.createElement("img");
     img.src = tool.icon;
     img.alt = tool.name;
+    Object.assign(img.style, imgStyle(tool));
     el.append(img);
     return el;
   };

@@ -1,8 +1,14 @@
 import registry from "@/content/tools.json";
+import sizes from "@/content/tool-sizes.json";
 import { THEME_IDS, THEMES, type ThemeId } from "@/components/home/themes";
 import { getSingleProject } from "@/lib/projects";
 
-export type Tool = { name: string; icon: string };
+/** `size` is the <img> size and ink-centring offset, in px, from scripts/size-tool-logos.mjs. */
+export type Tool = {
+  name: string;
+  icon: string;
+  size: { w: number; h: number; x: number; y: number };
+};
 export type ToolStacks = {
   tools: Record<string, Tool>;
   stacks: Record<ThemeId, string[]>;
@@ -29,9 +35,14 @@ export function getToolStacks(): ToolStacks {
     THEME_IDS.map((theme) => {
       const slug = THEMES[theme].project;
       const ids = slug
-        ? (getSingleProject(slug)?.technologies ?? []).flatMap((t) => lookup.get(t.toLowerCase()) ?? [])
+        ? (getSingleProject(slug)?.technologies ?? []).flatMap(
+            (t) => lookup.get(t.toLowerCase()) ?? [],
+          )
         : registry.personal;
-      return [theme, [...new Set(ids)].sort((a, b) => order.indexOf(a) - order.indexOf(b))];
+      return [
+        theme,
+        [...new Set(ids)].sort((a, b) => order.indexOf(a) - order.indexOf(b)),
+      ];
     }),
   ) as Record<ThemeId, string[]>;
 
@@ -39,7 +50,11 @@ export function getToolStacks(): ToolStacks {
   const tools = Object.fromEntries(
     [...used].map((id) => [
       id,
-      { name: registry.tools[id as keyof typeof registry.tools].name, icon: `/tools/${id}.svg` },
+      {
+        name: registry.tools[id as keyof typeof registry.tools].name,
+        icon: `/tools/${id}.svg`,
+        size: sizes[id as keyof typeof sizes] as Tool["size"],
+      },
     ]),
   );
   return { tools, stacks };

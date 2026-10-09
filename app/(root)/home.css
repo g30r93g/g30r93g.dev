@@ -110,7 +110,8 @@
    away and the incoming one follows .1s later. Hover stays instant. */
 [data-theme] .tool { flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background-color: transparent;
   transition: background-color .4s ease, transform .45s cubic-bezier(.3,1.2,.4,1), opacity .25s; }
-[data-theme] .tool img { height: 24px; max-width: 30px; object-fit: contain; display: block; filter: saturate(.85); transition: filter .4s ease, transform .4s ease; }
+[data-theme] .tool img { flex: none; display: block;  /* size and offset set per logo, see tool-strip.tsx */
+  filter: saturate(.85); transition: filter .4s ease, transform .4s ease; }
 [data-theme] .tool:hover, [data-theme] .tool.current { background-color: color-mix(in oklab, var(--fg) 7%, transparent); }
 [data-theme] .tool:hover img, [data-theme] .tool.current img { filter: none; transform: scale(1.1); }
 [data-theme] .tool.current:not(:hover) { transition-delay: .1s, 0s, 0s; }  /* background, transform, opacity */

@@ -1,5 +1,5 @@
 {
-  "_comment": "Logos for the tooling strip on the home page. Order here is the display order (grouped by purpose: languages, frontend, desktop and mobile, APIs, auth, databases, media, payments, hosting, analytics, build and testing, developer tools, AI, design and project management). Project stacks come from `technologies` in content/projects/*.mdx; `personal` is the g30r93g theme's stack. After adding a tool, run scripts/fetch-tool-logos.py.",
+  "_comment": "Logos for the tooling strip on the home page. Order here is the display order (grouped by purpose: languages, frontend, desktop and mobile, APIs, auth, databases, media, payments, hosting, analytics, build and testing, developer tools, AI, design and project management). Project stacks come from `technologies` in content/projects/*.mdx; `personal` is the g30r93g theme's stack. After adding a tool, run scripts/fetch-tool-logos.py, then scripts/size-tool-logos.mjs. `scale` adjusts a logo the sizing script misjudges.",
   "personal": [
     "react",
     "typescript",
@@ -14,6 +14,7 @@
     "nuxt",
     "postgres",
     "neon",
+    "drizzle",
     "convex",
     "betterauth",
     "remotion",
@@ -99,7 +100,8 @@
       "name": "Next.js",
       "source": {
         "url": "https://svgl.app/library/nextjs_icon_dark.svg"
-      }
+      },
+      "scale": 1.1
     },
     "nuxt": {
       "name": "Nuxt",
@@ -136,7 +138,8 @@
       "name": "shadcn/ui",
       "source": {
         "url": "https://svgl.app/library/shadcn-ui_dark.svg"
-      }
+      },
+      "scale": 0.8
     },
     "lucide": {
       "name": "Lucide",
@@ -185,7 +188,8 @@
       },
       "aliases": [
         "Postgres"
-      ]
+      ],
+      "scale": 1.07
     },
     "sqlite": {
       "name": "SQLite",
@@ -225,7 +229,8 @@
       "name": "Remotion",
       "source": {
         "url": "https://svgl.app/library/remotion.svg"
-      }
+      },
+      "scale": 0.72
     },
     "ffmpeg": {
       "name": "FFmpeg",
