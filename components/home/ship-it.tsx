@@ -1,7 +1,7 @@
 "use client";
 
 import { daysBetween, londonDay } from "@/lib/daily";
-import { useMemo, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type MouseEvent } from "react";
+import { useMemo, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type MouseEvent } from "react";
 
 /*
  * "Ship it": a daily axonometric pipe puzzle. Rotate the pipes until a commit
@@ -116,21 +116,36 @@ function generate(rand: () => number): Puzzle {
 const seedOf = (day: string) => Number(day.replaceAll("-", ""));
 const dayBefore = (day: string) => new Date(Date.parse(`${day}T00:00:00Z`) - 86_400_000).toISOString().slice(0, 10);
 
-/* Today's result and the streak, kept in this browser only */
-type Record = { day?: string; moves?: number; streak?: number };
+/* Today's board, result and streak, kept in this browser only */
+type Board = { day: string; turns: number[]; moves: number };
+type Record = { day?: string; moves?: number; streak?: number; board?: Board };
 const RECORD_KEY = "g-ship-it";
 const listeners = new Set<() => void>();
+let cached: string | undefined; // the last write, even if the browser wouldn't keep it
 const record = {
   subscribe(fn: () => void) {
+    // played in another tab: catch up
+    const onStorage = (e: StorageEvent) => {
+      if (e.key !== RECORD_KEY) return;
+      cached = e.newValue ?? "";
+      fn();
+    };
     listeners.add(fn);
-    return () => void listeners.delete(fn);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      listeners.delete(fn);
+      window.removeEventListener("storage", onStorage);
+    };
   },
   read() {
-    try {
-      return localStorage.getItem(RECORD_KEY) ?? "";
-    } catch {
-      return "";
+    if (cached === undefined) {
+      try {
+        cached = localStorage.getItem(RECORD_KEY) ?? "";
+      } catch {
+        cached = "";
+      }
     }
+    return cached;
   },
   parse(raw: string): Record {
     try {
@@ -139,13 +154,20 @@ const record = {
       return {};
     }
   },
-  solve(day: string, moves: number) {
-    const last = record.parse(record.read());
-    const streak = last.day === dayBefore(day) ? (last.streak ?? 0) + 1 : 1;
+  write(next: Record) {
+    cached = JSON.stringify(next);
     try {
-      localStorage.setItem(RECORD_KEY, JSON.stringify({ day, moves, streak }));
+      localStorage.setItem(RECORD_KEY, cached);
     } catch {}
     listeners.forEach((fn) => fn());
+  },
+  play(board: Board) {
+    record.write({ ...record.parse(record.read()), board });
+  },
+  solve(board: Board) {
+    const last = record.parse(record.read());
+    const streak = last.day === dayBefore(board.day) ? (last.streak ?? 0) + 1 : 1;
+    record.write({ day: board.day, moves: board.moves, streak, board });
   },
 };
 
@@ -173,24 +195,31 @@ export default function ShipIt({ day }: { day: string }) {
 
 function Daily({ day }: { day: string }) {
   const puzzle = useMemo(() => generate(mulberry32(seedOf(day))), [day]);
-  const [play, setPlay] = useState<Game>(puzzle);
   const saved = record.parse(useSyncExternalStore(record.subscribe, record.read, () => ""));
   const streak = saved.day === day || saved.day === dayBefore(day) ? (saved.streak ?? 0) : 0;
-  // already solved today (perhaps in another visit): show the solution
+  // today's board as it was left, so a reload carries on rather than starting afresh
+  const board = saved.board?.day === day && saved.board.turns?.length === N * N ? saved.board : undefined;
+  const play: Game = board
+    ? { tiles: puzzle.tiles.map((t, i) => ({ ...t, r: Number(board.turns[i]) || 0 })), moves: board.moves || 0 }
+    : puzzle;
+  // solved today but the board wasn't kept (solved before boards were): show the solution
   const game =
     saved.day === day && !flow(play.tiles).has(SINK)
       ? { tiles: puzzle.tiles.map((t, i) => (puzzle.route.includes(i) ? { ...t, r: 0 } : t)), moves: saved.moves ?? 0 }
       : play;
   const dist = flow(game.tiles);
   const won = dist.has(SINK);
+  const turned = game.tiles.some((t, i) => t.r !== puzzle.tiles[i].r);
 
   const turn = (i: number, by: 1 | -1) => {
     if (won || i === SRC || i === SINK) return;
     const tiles = game.tiles.map((t, j) => (j === i ? { ...t, r: t.r + by } : t));
-    const moves = game.moves + 1;
-    if (flow(tiles).has(SINK)) record.solve(day, moves);
-    setPlay({ tiles, moves });
+    const next = { day, turns: tiles.map((t) => t.r), moves: game.moves + 1 };
+    if (flow(tiles).has(SINK)) record.solve(next);
+    else record.play(next);
   };
+  // the pipes go back, but the moves still count
+  const reset = () => record.play({ day, turns: puzzle.tiles.map((t) => t.r), moves: game.moves });
   const onKey = (i: number) => (e: KeyboardEvent) => {
     if (e.key !== "Enter" && e.key !== " ") return;
     e.preventDefault();
@@ -285,8 +314,8 @@ function Daily({ day }: { day: string }) {
         <p>
           {won ? "Shipped. A new board drops at midnight UK time." : "Turn the pipes to get a commit from push to prod."}
         </p>
-        {!won && game.moves > 0 && (
-          <button className={"game-btn"} onClick={() => setPlay(puzzle)}>
+        {!won && turned && (
+          <button className={"game-btn"} onClick={reset}>
             Start over
           </button>
         )}
