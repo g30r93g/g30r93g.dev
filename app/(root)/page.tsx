@@ -4,6 +4,7 @@ import "./home.css";
 import Bento from "@/components/home/bento";
 import GithubCard from "@/components/home/github-card";
 import ShipIt from "@/components/home/ship-it";
+import { StorageLink } from "@/components/site/storage-notice";
 import SocialPill from "@/components/home/social-pill";
 import Spotlight from "@/components/home/spotlight";
 import { THEME_IDS, THEMES } from "@/components/home/themes";
@@ -234,6 +235,7 @@ export default function Home() {
         <span className={"label"}>
           © {BUILT.getFullYear()} {NAME}
         </span>
+        <StorageLink />
       </footer>
     </PageTransition>
   );

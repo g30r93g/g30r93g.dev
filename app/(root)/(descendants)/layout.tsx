@@ -1,3 +1,5 @@
+import { StorageLink } from "@/components/site/storage-notice";
+
 // the pages are static: the year is when they were built
 const YEAR = new Date().getFullYear();
 
@@ -12,9 +14,12 @@ export default function DescendantsLayout({
       {children}
       <footer className={"site-foot"}>
         <span className={"label"}>© {YEAR} George Nick Gorzynski</span>
-        <a className={"label"} href={"mailto:me@g30r93g.dev"}>
-          me@g30r93g.dev
-        </a>
+        <span className={"site-foot-links"}>
+          <StorageLink />
+          <a className={"label"} href={"mailto:me@g30r93g.dev"}>
+            me@g30r93g.dev
+          </a>
+        </span>
       </footer>
     </>
   );

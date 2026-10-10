@@ -428,6 +428,27 @@
 }
 [data-theme] .site-foot { width: min(1200px, 100% - 32px); margin: 0 auto 40px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
 [data-theme] .site-foot a:hover { color: var(--fg); }
+[data-theme] .site-foot-links { display: flex; flex-wrap: wrap; gap: 16px; }
+
+/* ------------------------------------------------------------------
+   SAVED DATA: the notice, and the footer link that brings it back
+------------------------------------------------------------------ */
+[data-theme] .storage-notice {
+  position: fixed; right: 16px; bottom: 16px; z-index: 60;
+  width: min(380px, 100% - 32px);
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 16px;
+  font-size: 13px; line-height: 1.5; color: var(--fg);
+  background: color-mix(in oklab, var(--card-solid) 94%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.4);
+}
+[data-theme] .storage-notice p { margin: 0; color: var(--muted); }
+[data-theme] .storage-notice-actions { display: flex; justify-content: flex-end; gap: 8px; }
+[data-theme] .storage-link { background: none; border: 0; padding: 0; cursor: pointer; }
+[data-theme] .storage-link:hover { color: var(--fg); }
 @media (max-width: 640px) {
   [data-theme] .page-grid { grid-template-columns: 1fr; margin: 20px auto 32px; gap: 12px; }
   [data-theme] .page-grid > * { grid-column: 1 / -1 !important; }
