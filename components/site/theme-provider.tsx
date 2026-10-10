@@ -12,6 +12,7 @@ import {
 } from "react";
 import { flushSync } from "react-dom";
 import { DEFAULT_THEME, THEME_IDS, THEME_STORAGE_KEY, isThemeId, type ThemeId } from "@/components/home/themes";
+import { mayStore } from "@/lib/storage-consent";
 
 export type Filter = "all" | "about" | "work" | "projects" | "games";
 
@@ -40,7 +41,7 @@ const storage = {
   },
   set: (value: string) => {
     try {
-      localStorage.setItem(THEME_STORAGE_KEY, value);
+      if (mayStore()) localStorage.setItem(THEME_STORAGE_KEY, value);
     } catch {}
   },
 };

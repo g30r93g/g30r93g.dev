@@ -1,6 +1,7 @@
 "use client";
 
 import { daysBetween, londonDay } from "@/lib/daily";
+import { mayStore } from "@/lib/storage-consent";
 import { useMemo, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type MouseEvent } from "react";
 
 /*
@@ -116,7 +117,7 @@ function generate(rand: () => number): Puzzle {
 const seedOf = (day: string) => Number(day.replaceAll("-", ""));
 const dayBefore = (day: string) => new Date(Date.parse(`${day}T00:00:00Z`) - 86_400_000).toISOString().slice(0, 10);
 
-/* Today's board, result and streak, kept in this browser only */
+/* Today's board, result and streak, kept in this browser only (unless the visitor said no) */
 type Board = { day: string; turns: number[]; moves: number };
 type Record = { day?: string; moves?: number; streak?: number; board?: Board };
 const RECORD_KEY = "g-ship-it";
@@ -157,7 +158,7 @@ const record = {
   write(next: Record) {
     cached = JSON.stringify(next);
     try {
-      localStorage.setItem(RECORD_KEY, cached);
+      if (mayStore()) localStorage.setItem(RECORD_KEY, cached);
     } catch {}
     listeners.forEach((fn) => fn());
   },

@@ -1,5 +1,6 @@
 import "./theme.css";
 import SiteNav from "@/components/site/nav";
+import StorageNotice from "@/components/site/storage-notice";
 import { SiteProvider } from "@/components/site/theme-provider";
 import { THEME_BOOT_SCRIPT } from "@/components/home/themes";
 import { getBlogPosts } from "@/lib/blog";
@@ -29,6 +30,7 @@ export default function ThemedLayout({
       <div className={"aura"} aria-hidden={"true"} />
       <SiteNav titles={titles} />
       {children}
+      <StorageNotice />
     </SiteProvider>
   );
 }
